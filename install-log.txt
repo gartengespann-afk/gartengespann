@@ -1,0 +1,104 @@
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@tanstack/react-start@1.168.30',
+npm warn EBADENGINE   required: { node: '>=22.12.0' },
+npm warn EBADENGINE   current: { node: 'v20.19.5', npm: '10.8.2' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@supabase/supabase-js@2.110.7',
+npm warn EBADENGINE   required: { node: '>=22.0.0' },
+npm warn EBADENGINE   current: { node: 'v20.19.5', npm: '10.8.2' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@supabase/auth-js@2.110.7',
+npm warn EBADENGINE   required: { node: '>=22.0.0' },
+npm warn EBADENGINE   current: { node: 'v20.19.5', npm: '10.8.2' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@supabase/functions-js@2.110.7',
+npm warn EBADENGINE   required: { node: '>=22.0.0' },
+npm warn EBADENGINE   current: { node: 'v20.19.5', npm: '10.8.2' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@supabase/postgrest-js@2.110.7',
+npm warn EBADENGINE   required: { node: '>=22.0.0' },
+npm warn EBADENGINE   current: { node: 'v20.19.5', npm: '10.8.2' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@supabase/realtime-js@2.110.7',
+npm warn EBADENGINE   required: { node: '>=22.0.0' },
+npm warn EBADENGINE   current: { node: 'v20.19.5', npm: '10.8.2' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@supabase/storage-js@2.110.7',
+npm warn EBADENGINE   required: { node: '>=22.0.0' },
+npm warn EBADENGINE   current: { node: 'v20.19.5', npm: '10.8.2' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@tanstack/react-start-client@1.168.16',
+npm warn EBADENGINE   required: { node: '>=22.12.0' },
+npm warn EBADENGINE   current: { node: 'v20.19.5', npm: '10.8.2' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@tanstack/react-start-rsc@0.1.29',
+npm warn EBADENGINE   required: { node: '>=22.12.0' },
+npm warn EBADENGINE   current: { node: 'v20.19.5', npm: '10.8.2' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@tanstack/react-start-server@1.167.22',
+npm warn EBADENGINE   required: { node: '>=22.12.0' },
+npm warn EBADENGINE   current: { node: 'v20.19.5', npm: '10.8.2' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@tanstack/start-client-core@1.170.14',
+npm warn EBADENGINE   required: { node: '>=22.12.0' },
+npm warn EBADENGINE   current: { node: 'v20.19.5', npm: '10.8.2' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@tanstack/start-plugin-core@1.171.22',
+npm warn EBADENGINE   required: { node: '>=22.12.0' },
+npm warn EBADENGINE   current: { node: 'v20.19.5', npm: '10.8.2' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@tanstack/start-server-core@1.169.17',
+npm warn EBADENGINE   required: { node: '>=22.12.0' },
+npm warn EBADENGINE   current: { node: 'v20.19.5', npm: '10.8.2' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@tanstack/start-fn-stubs@1.162.0',
+npm warn EBADENGINE   required: { node: '>=22.12.0' },
+npm warn EBADENGINE   current: { node: 'v20.19.5', npm: '10.8.2' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: '@tanstack/start-storage-context@1.167.17',
+npm warn EBADENGINE   required: { node: '>=22.12.0' },
+npm warn EBADENGINE   current: { node: 'v20.19.5', npm: '10.8.2' }
+npm warn EBADENGINE }
+npm warn tar TAR_ENTRY_ERROR EPERM: operation not permitted, unlink 'D:\site ecom\clone-concierge-app-main\node_modules\@radix-ui\react-collection\dist\index.js.map.DELETE.9300bafcd3b0d223dc52a5f4f76a345a'
+npm warn deprecated tsconfck@3.1.6: unmaintained
+npm warn tar TAR_ENTRY_ERROR EPERM: operation not permitted, open 'D:\site ecom\clone-concierge-app-main\node_modules\@rolldown\binding-win32-x64-msvc\rolldown-binding.win32-x64-msvc.node'
+npm warn tar TAR_ENTRY_ERROR EPERM: operation not permitted, open 'D:\site ecom\clone-concierge-app-main\node_modules\@tailwindcss\oxide-win32-x64-msvc\tailwindcss-oxide.win32-x64-msvc.node'
+npm warn tar TAR_ENTRY_ERROR EPERM: operation not permitted, unlink 'D:\site ecom\clone-concierge-app-main\node_modules\prettier\plugins\markdown.js.DELETE.7188844fb8907efc2298ed20839c57e7'
+npm warn tar TAR_ENTRY_ERROR EPERM: operation not permitted, unlink 'D:\site ecom\clone-concierge-app-main\node_modules\prettier\plugins\meriyah.js.DELETE.7413333002cc0d164d38f0d565301f7a'
+npm warn tar TAR_ENTRY_ERROR EPERM: operation not permitted, unlink 'D:\site ecom\clone-concierge-app-main\node_modules\prettier\plugins\postcss.js.DELETE.129cf1d313370ca0a33db7f5d00dde99'
+npm warn deprecated recharts@2.15.4: 1.x and 2.x branches are no longer active. Bump to Recharts v3 to receive latest features and bugfixes. See https://github.com/recharts/recharts/wiki/3.0-migration-guide
+npm warn tar TAR_ENTRY_ERROR EPERM: operation not permitted, open 'D:\site ecom\clone-concierge-app-main\node_modules\prettier\plugins\typescript.js'
+npm warn tar TAR_ENTRY_ERROR EPERM: operation not permitted, unlink 'D:\site ecom\clone-concierge-app-main\node_modules\prettier\plugins\html.mjs.DELETE.703360094cedd33bbe904ec94cd5e6c0'
+npm error code EPERM
+npm error syscall unlink
+npm error path D:\site ecom\clone-concierge-app-main\node_modules\@babel\generator\lib\source-map.js.map
+npm error errno -4048
+npm error [Error: EPERM: operation not permitted, unlink 'D:\site ecom\clone-concierge-app-main\node_modules\@babel\generator\lib\source-map.js.map'] {
+npm error   errno: -4048,
+npm error   code: 'EPERM',
+npm error   syscall: 'unlink',
+npm error   path: 'D:\\site ecom\\clone-concierge-app-main\\node_modules\\@babel\\generator\\lib\\source-map.js.map'
+npm error }
+npm error
+npm error The operation was rejected by your operating system.
+npm error It's possible that the file was already in use (by a text editor or antivirus),
+npm error or that you lack permissions to access it.
+npm error
+npm error If you believe this might be a permissions issue, please double-check the
+npm error permissions of the file and its containing directories, or try running
+npm error the command again as root/Administrator.
+npm error A complete log of this run can be found in: C:\Users\Mathias\AppData\Local\npm-cache\_logs\2026-07-18T11_03_58_643Z-debug-0.log

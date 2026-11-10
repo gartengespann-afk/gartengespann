@@ -118,8 +118,7 @@ function Index() {
           <div className="flex flex-col items-center bg-white px-5 py-10 text-center sm:px-8 sm:py-12 md:px-16 md:py-16">
             <p className="mb-3 text-xs text-gray-400 md:mb-4 md:text-sm">{t("fastDelivery")}</p>
             <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl md:text-6xl">
-              <span className="text-black">Produits </span>
-              <span className="text-orange-500">de</span>
+              <span className="text-black">{t("heroPromoPrefix")}</span>
               <br />
               <span className="text-orange-500">{t("heroBadge")}</span>
             </h2>

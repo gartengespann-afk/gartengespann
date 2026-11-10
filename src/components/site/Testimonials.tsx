@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { User } from "lucide-react";
+import { ChevronLeft, ChevronRight, User } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 
 const names = [
@@ -89,50 +89,70 @@ export function Testimonials() {
           {t("testiSub")}
         </p>
 
-        <div
-          ref={containerRef}
-          className="relative mt-10 overflow-hidden select-none sm:mt-12 md:mt-16"
-          onMouseDown={(e) => onDragStart(e.clientX)}
-          onMouseMove={(e) => onDragMove(e.clientX)}
-          onMouseUp={onDragEnd}
-          onMouseLeave={onDragEnd}
-          onTouchStart={(e) => onDragStart(e.touches[0].clientX)}
-          onTouchMove={(e) => onDragMove(e.touches[0].clientX)}
-          onTouchEnd={onDragEnd}
-        >
-          <div
-            className="flex cursor-grab active:cursor-grabbing"
-            style={{
-              transform: `translateX(${offset}px)`,
-              transition: isDragging.current ? "none" : "transform 500ms ease-in-out",
-            }}
+        <div className="relative mt-10 sm:mt-12 md:mt-16">
+          <button
+            type="button"
+            onClick={() => setPage((current) => Math.max(0, current - 1))}
+            disabled={page === 0}
+            aria-label={t("previous")}
+            className="absolute left-0 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white text-gray-700 shadow-md transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40 sm:h-11 sm:w-11"
           >
-            {names.map((name, i) => (
-              <div
-                key={i}
-                className={itemsPerPage === 1 ? "w-full shrink-0 px-2" : itemsPerPage === 2 ? "w-1/2 shrink-0 px-2" : "w-1/3 shrink-0 px-2 md:px-3"}
-              >
-                <div className="flex h-full flex-col justify-between rounded-[18px] bg-white p-5 shadow-[0_2px_20px_rgba(0,0,0,0.06)] sm:p-6 md:p-8">
-                  <div>
-                    <div className="flex gap-1">
-                      {[...Array(5)].map((_, s) => (
-                        <span key={s} className="text-lg" style={{ color: "#FFC107" }}>★</span>
-                      ))}
+            <ChevronLeft aria-hidden="true" className="h-5 w-5" />
+          </button>
+          <div
+            ref={containerRef}
+            className="mx-10 overflow-hidden select-none sm:mx-12"
+            onMouseDown={(e) => onDragStart(e.clientX)}
+            onMouseMove={(e) => onDragMove(e.clientX)}
+            onMouseUp={onDragEnd}
+            onMouseLeave={onDragEnd}
+            onTouchStart={(e) => onDragStart(e.touches[0].clientX)}
+            onTouchMove={(e) => onDragMove(e.touches[0].clientX)}
+            onTouchEnd={onDragEnd}
+          >
+            <div
+              className="flex cursor-grab active:cursor-grabbing"
+              style={{
+                transform: `translateX(${offset}px)`,
+                transition: isDragging.current ? "none" : "transform 500ms ease-in-out",
+              }}
+            >
+              {names.map((name, i) => (
+                <div
+                  key={i}
+                  className={itemsPerPage === 1 ? "w-full shrink-0 px-2" : itemsPerPage === 2 ? "w-1/2 shrink-0 px-2" : "w-1/3 shrink-0 px-2 md:px-3"}
+                >
+                  <div className="flex h-full flex-col justify-between rounded-[18px] bg-white p-5 shadow-[0_2px_20px_rgba(0,0,0,0.06)] sm:p-6 md:p-8">
+                    <div>
+                      <div className="flex gap-1">
+                        {[...Array(5)].map((_, s) => (
+                          <span key={s} className="text-lg" style={{ color: "#FFC107" }}>★</span>
+                        ))}
+                      </div>
+                      <p className="mt-4 text-sm leading-relaxed text-gray-700 sm:text-[15px] md:text-[17px]">
+                        {t(`testi${i + 1}` as never)}
+                      </p>
                     </div>
-                    <p className="mt-4 text-sm leading-relaxed text-gray-700 sm:text-[15px] md:text-[17px]">
-                      {t(`testi${i + 1}` as never)}
-                    </p>
-                  </div>
-                  <div className="mt-8 flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-accent md:h-11 md:w-11">
-                      <User className="h-4 w-4 text-accent-foreground md:h-5 md:w-5" />
+                    <div className="mt-8 flex items-center gap-3">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-full bg-accent md:h-11 md:w-11">
+                        <User className="h-4 w-4 text-accent-foreground md:h-5 md:w-5" />
+                      </div>
+                      <span className="text-sm font-bold text-black md:text-lg">{name}</span>
                     </div>
-                    <span className="text-sm font-bold text-black md:text-lg">{name}</span>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
+          <button
+            type="button"
+            onClick={() => setPage((current) => Math.min(totalPages - 1, current + 1))}
+            disabled={page >= totalPages - 1}
+            aria-label={t("next")}
+            className="absolute right-0 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white text-gray-700 shadow-md transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40 sm:h-11 sm:w-11"
+          >
+            <ChevronRight aria-hidden="true" className="h-5 w-5" />
+          </button>
         </div>
 
         <div className="mt-8 flex items-center justify-center gap-2 sm:mt-10">

@@ -42,8 +42,15 @@ export function Header() {
       </div>
 
       <div className="container mx-auto flex items-center justify-between gap-2 px-4 py-2">
-        <Link to="/" className="flex items-center gap-2">
-          <img src="/logo.png" alt="GARTEN-GESPANN" className="h-16 w-auto sm:h-20 md:h-24" />
+        <Link to="/" aria-label="GARTEN-GESPANN" className="flex items-center gap-2">
+          <img
+            src="/Icône_Bout.png"
+            alt=""
+            className="h-10 w-10 shrink-0 object-contain sm:h-11 sm:w-11"
+          />
+          <span className="text-lg font-extrabold tracking-tight text-primary sm:text-xl">
+            GARTEN-GESPANN
+          </span>
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">

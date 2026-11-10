@@ -7,8 +7,13 @@ export function Footer() {
     <footer className="mt-16 border-t bg-primary text-primary-foreground">
       <div className="container mx-auto grid grid-cols-1 gap-8 px-4 py-10 sm:grid-cols-2 md:grid-cols-4 md:py-12">
         <div className="md:pl-8 lg:pl-16">
-          <img src="/logo-ft.jpg" alt="GARTEN-GESPANN" className="h-16 w-auto md:h-20" />
-          <p className="mt-3 text-sm leading-6 opacity-80">{t("aboutText").slice(0, 120)}…</p>
+          <div className="flex items-center gap-2">
+            <img src="/Icône_Bout.png" alt="" className="h-11 w-11 shrink-0 object-contain" />
+            <span className="text-lg font-extrabold tracking-tight text-white sm:text-xl">
+              GARTEN-GESPANN
+            </span>
+          </div>
+          <p className="mt-3 text-sm leading-6 opacity-80">{t("aboutText")}</p>
         </div>
         <div className="md:pl-4">
           <div className="mb-3 text-sm font-semibold md:text-base">{t("termsTitle")}</div>

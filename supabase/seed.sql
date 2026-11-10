@@ -4,7 +4,11 @@ INSERT INTO public.categories (slug, name_de, name_fr, name_en, sort_order) VALU
   ('lawn-mowers', 'Rasenmäher', 'Tondeuses', 'Lawn mowers', 2),
   ('chainsaws', 'Kettensägen', 'Tronçonneuses', 'Chainsaws', 3),
   ('firewood', 'Brennholz', 'Bois de chauffage', 'Firewood', 4),
-  ('accessories', 'Zubehör', 'Accessoires', 'Accessories', 5)
+  ('accessories', 'Zubehör', 'Accessoires', 'Accessories', 5),
+  ('wood-pellets', 'Holzpellets', 'Granulés de bois', 'Wood pellets', 6),
+  ('wood-briquettes', 'Holzbriketts', 'Briquettes de bois', 'Wood briquettes', 7),
+  ('firelighters-kindling', 'Anzündhilfen und Kleinholz', 'Allume-feu et petit bois', 'Firelighters and kindling', 8),
+  ('wood-stoves', 'Holzöfen', 'Poêles à bois', 'Wood stoves', 9)
 ON CONFLICT (slug) DO NOTHING;
 
 -- Seed products

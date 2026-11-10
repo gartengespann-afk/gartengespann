@@ -14,6 +14,9 @@ export type Product = {
   name_de: string
   name_fr: string
   name_en: string
+  subtitle_de?: string | null
+  subtitle_fr?: string | null
+  subtitle_en?: string | null
   description_de: string | null
   description_fr: string | null
   description_en: string | null
@@ -31,7 +34,20 @@ export const categories: Category[] = [
   { id: "cat-3", slug: "chainsaws", name_de: "Kettensägen", name_fr: "Tronçonneuses", name_en: "Chainsaws", sort_order: 3 },
   { id: "cat-4", slug: "firewood", name_de: "Brennholz", name_fr: "Bois de chauffage", name_en: "Firewood", sort_order: 4 },
   { id: "cat-5", slug: "accessories", name_de: "Zubehör", name_fr: "Accessoires", name_en: "Accessories", sort_order: 5 },
+  { id: "cat-6", slug: "wood-pellets", name_de: "Holzpellets", name_fr: "Granulés de bois", name_en: "Wood pellets", sort_order: 6 },
+  { id: "cat-7", slug: "wood-briquettes", name_de: "Holzbriketts", name_fr: "Briquettes de bois", name_en: "Wood briquettes", sort_order: 7 },
+  { id: "cat-8", slug: "firelighters-kindling", name_de: "Anzündhilfen und Kleinholz", name_fr: "Allume-feu et petit bois", name_en: "Firelighters and kindling", sort_order: 8 },
+  { id: "cat-9", slug: "wood-stoves", name_de: "Holzöfen", name_fr: "Poêles à bois", name_en: "Wood stoves", sort_order: 9 },
 ]
+
+// Les produits consommables (bois de chauffage, granulés, briquettes, allume-feu…) ne sont pas couverts par la garantie.
+const CATEGORIES_WITHOUT_WARRANTY = new Set(["firewood", "wood-pellets", "wood-briquettes", "firelighters-kindling"])
+
+export function productHasWarranty(product: Product): boolean {
+  if (!product.category_id) return true
+  const category = categories.find((c) => c.id === product.category_id)
+  return category ? !CATEGORIES_WITHOUT_WARRANTY.has(category.slug) : true
+}
 
 export const products: Product[] = [
   {
@@ -5424,6 +5440,1284 @@ export const products: Product[] = [
     is_hot: true,
     stock: 100,
     created_at: "2026-06-28T10:00:00Z",
+  },
+  {
+    id: "prod-48",
+    slug: "granules-de-bois-enplus-a1-6-mm-palette-990-kg",
+    category_id: "cat-6",
+    name_de: "Holzpellets ENplus A1 6 mm · Palette 990 kg",
+    name_fr: "Granulés de bois ENplus A1 6 mm · Palette de 990 kg",
+    name_en: "ENplus A1 wood pellets 6 mm · 990 kg pallet",
+    subtitle_de: "ENplus A1 zertifizierte Pellets, gleichmäßiger Durchmesser von 6 mm, sehr geringer Aschegehalt.",
+    subtitle_fr: "Granulés certifiés ENplus A1, diamètre uniforme de 6 mm, très faible teneur en cendres.",
+    subtitle_en: "ENplus A1 certified pellets, uniform 6 mm diameter, very low ash content.",
+    description_de: `<p class="mb-3"><strong>Sie suchen guten Brennstoff? Genau das machen wir!</strong></p>
+
+<p class="mb-3">Holzpellets ENplus A1 6 mm, Palette 990 kg: ein Produkt, das für seine Leistung und Gleichmäßigkeit ausgewählt wurde. Jede Charge wird vor der Verpackung kontrolliert, um konstante Wärme über den ganzen Winter und minimale Rückstände in Ihrem Ofen zu gewährleisten.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Die 5 Vorteile dieses Produkts</h3>
+<ul class="space-y-1 mb-3">
+  <li>Wirklich trockener, sofort einsatzbereiter Brennstoff.</li>
+  <li>Transparente Verpackung: Einzelsack oder komplette Palette</li>
+  <li>Ausgewählte und kontrollierte Rohstoffe</li>
+  <li>Kontrollierte Trocknung für eine saubere Verbrennung</li>
+  <li>Überprüfbare Menge dank Lieferung auf Palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Was bedeutet Leistung?</h3>
+<p class="mb-3">Ein gut getrockneter Brennstoff erzeugt eine Verbrennung mit hoher Wärmeabgabe. Feuchter Brennstoff entzündet sich schlecht, heizt wenig und verrußt den Schornstein: Feuchtigkeit ist der größte Feind. Bei niedrigem Feuchtigkeitsgehalt benötigen Sie etwa 30 % weniger Volumen, produzieren zwei- bis dreimal weniger Asche und Ihr Ofen bleibt länger sauber.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Saubere und überprüfbare Lieferung auf Palette</h3>
+<p class="mb-3">Die Ware wird direkt auf Paletten gelagert, um eine Lieferung in einwandfreiem Zustand zu gewährleisten. Sie wird vor dem Gebäude abgestellt: kein loser Haufen, keine Reinigung nötig und eine bei der Lieferung leicht zu überprüfende Menge.</p>`,
+    description_fr: `<p class="mb-3"><strong>Vous cherchez du bon carburant ? C'est tout ce que nous faisons !</strong></p>
+
+<p class="mb-3">Granulés de bois ENplus A1 6 mm, palette de 990 kg : un produit sélectionné pour ses performances et sa régularité. Chaque lot est contrôlé avant conditionnement afin de garantir une chaleur constante tout au long de l’hiver et de minimiser les résidus dans votre poêle.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Les 5 avantages de ce produit</h3>
+<ul class="space-y-1 mb-3">
+  <li>Carburant véritablement sec, prêt à l'emploi.</li>
+  <li>Emballage transparent : sac individuel ou palette complète</li>
+  <li>Matières premières sélectionnées et contrôlées</li>
+  <li>Séchage contrôlé pour une combustion propre</li>
+  <li>Quantité vérifiable grâce à la livraison sur palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Que signifie la performance ?</h3>
+<p class="mb-3">Un combustible bien sec produit une combustion à forte chaleur. Un combustible humide s'enflamme mal, chauffe peu et encrasse la cheminée : l'humidité reste le principal ennemi. Avec un faible taux d'humidité, vous utilisez environ 30 % de volume en moins, produisez deux à trois fois moins de cendres et votre poêle reste propre plus longtemps.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Livraison propre et vérifiable sur palette</h3>
+<p class="mb-3">Les marchandises sont stockées directement sur palettes afin de garantir une livraison en parfait état. Elles sont déposées devant le bâtiment : pas de tas en vrac, pas de nettoyage nécessaire et une quantité facile à vérifier à la livraison.</p>`,
+    description_en: `<p class="mb-3"><strong>Looking for good fuel? That's all we do!</strong></p>
+
+<p class="mb-3">ENplus A1 wood pellets 6 mm, 990 kg pallet: a product selected for its performance and consistency. Every batch is checked before packaging to guarantee steady heat throughout the winter and minimal residue in your stove.</p>
+
+<h3 class="font-semibold mb-2 mt-5">The 5 benefits of this product</h3>
+<ul class="space-y-1 mb-3">
+  <li>Genuinely dry fuel, ready to use.</li>
+  <li>Transparent packaging: individual bag or full pallet</li>
+  <li>Selected and controlled raw materials</li>
+  <li>Controlled drying for clean combustion</li>
+  <li>Verifiable quantity thanks to pallet delivery</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">What does performance mean?</h3>
+<p class="mb-3">Well-dried fuel burns with a high heat output. Damp fuel ignites poorly, gives little heat and clogs the chimney: moisture is the main enemy. With a low moisture content you use around 30% less volume, produce two to three times less ash and your stove stays clean for longer.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Clean, verifiable pallet delivery</h3>
+<p class="mb-3">Goods are stored directly on pallets to guarantee delivery in perfect condition. They are placed in front of the building: no loose heap, no cleaning required and a quantity that is easy to check on delivery.</p>`,
+    price_eur: 280.00,
+    image_url: "/48-1.jpg",
+    gallery: ["/48-1.jpg", "/48-2.jpg", "/48-3.jpg", "/48-4.jpg"],
+    is_hot: true,
+    stock: 100,
+    created_at: "2026-11-06T10:00:00Z",
+  },
+  {
+    id: "prod-49",
+    slug: "granules-de-bois-resineux-qualite-superieure-6-mm-palette-990-kg",
+    category_id: "cat-6",
+    name_de: "Holzpellets aus Nadelholz in Premium-Qualität, 6 mm · Palette 990 kg",
+    name_fr: "Granulés de bois résineux de qualité supérieure, 6 mm · Palette de 990 kg",
+    name_en: "Premium softwood pellets, 6 mm · 990 kg pallet",
+    subtitle_de: "Reine Nadelholzpellets mit hohem Heizwert und besonders sauberer Verbrennung.",
+    subtitle_fr: "Granulés de bois résineux pur à pouvoir calorifique élevé et à combustion particulièrement propre.",
+    subtitle_en: "Pure softwood pellets with high calorific value and particularly clean combustion.",
+    description_de: `<p class="mb-3"><strong>Sie suchen guten Brennstoff? Genau das machen wir!</strong></p>
+
+<p class="mb-3">Holzpellets aus Nadelholz in Premium-Qualität 6 mm · Palette 990 kg: ein Produkt, das für seine Leistung und Gleichmäßigkeit ausgewählt wurde. Jede Charge wird vor der Verpackung geprüft, um konstante Wärme über den ganzen Winter und minimale Rückstände in Ihrem Ofen zu gewährleisten.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Die 5 Vorteile dieses Produkts</h3>
+<ul class="space-y-1 mb-3">
+  <li>Wirklich trockener, sofort einsatzbereiter Brennstoff.</li>
+  <li>Transparente Verpackung: Einzelsack oder komplette Palette</li>
+  <li>Ausgewählte und kontrollierte Rohstoffe</li>
+  <li>Kontrollierte Trocknung für eine saubere Verbrennung</li>
+  <li>Überprüfbare Menge dank Lieferung auf Palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Was bedeutet Leistung?</h3>
+<p class="mb-3">Ein gut getrockneter Brennstoff erzeugt eine Verbrennung mit hoher Wärmeabgabe. Feuchter Brennstoff entzündet sich schlecht, heizt wenig und verrußt den Schornstein: Feuchtigkeit ist der größte Feind. Bei niedrigem Feuchtigkeitsgehalt benötigen Sie etwa 30 % weniger Volumen, produzieren zwei- bis dreimal weniger Asche und Ihr Ofen bleibt länger sauber.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Saubere und überprüfbare Lieferung auf Palette</h3>
+<p class="mb-3">Die Ware wird direkt auf Paletten gelagert, um eine Lieferung in einwandfreiem Zustand zu gewährleisten. Sie wird vor dem Gebäude abgestellt: kein loser Haufen, keine Reinigung nötig und eine bei der Lieferung leicht zu überprüfende Menge.</p>`,
+    description_fr: `<p class="mb-3"><strong>Vous cherchez du bon carburant ? C'est tout ce que nous faisons !</strong></p>
+
+<p class="mb-3">Granulés de bois résineux de qualité supérieure 6 mm · Palette de 990 kg : un produit sélectionné pour ses performances et sa régularité. Chaque lot est inspecté avant emballage afin de garantir une chaleur constante tout au long de l'hiver et de minimiser les résidus dans votre poêle.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Les 5 avantages de ce produit</h3>
+<ul class="space-y-1 mb-3">
+  <li>Carburant véritablement sec, prêt à l'emploi.</li>
+  <li>Emballage transparent : sac individuel ou palette complète</li>
+  <li>Matières premières sélectionnées et contrôlées</li>
+  <li>Séchage contrôlé pour une combustion propre</li>
+  <li>Quantité vérifiable grâce à la livraison sur palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Que signifie la performance ?</h3>
+<p class="mb-3">Un combustible bien sec produit une combustion à forte chaleur. Un combustible humide s'enflamme mal, chauffe peu et encrasse la cheminée : l'humidité reste le principal ennemi. Avec un faible taux d'humidité, vous utilisez environ 30 % de volume en moins, produisez deux à trois fois moins de cendres et votre poêle reste propre plus longtemps.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Livraison propre et vérifiable sur palette</h3>
+<p class="mb-3">Les marchandises sont stockées directement sur palettes afin de garantir une livraison en parfait état. Elles sont déposées devant le bâtiment : pas de tas en vrac, pas de nettoyage nécessaire et une quantité facile à vérifier à la livraison.</p>`,
+    description_en: `<p class="mb-3"><strong>Looking for good fuel? That's all we do!</strong></p>
+
+<p class="mb-3">Premium softwood pellets 6 mm · 990 kg pallet: a product selected for its performance and consistency. Every batch is inspected before packaging to guarantee steady heat throughout the winter and minimal residue in your stove.</p>
+
+<h3 class="font-semibold mb-2 mt-5">The 5 benefits of this product</h3>
+<ul class="space-y-1 mb-3">
+  <li>Genuinely dry fuel, ready to use.</li>
+  <li>Transparent packaging: individual bag or full pallet</li>
+  <li>Selected and controlled raw materials</li>
+  <li>Controlled drying for clean combustion</li>
+  <li>Verifiable quantity thanks to pallet delivery</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">What does performance mean?</h3>
+<p class="mb-3">Well-dried fuel burns with a high heat output. Damp fuel ignites poorly, gives little heat and clogs the chimney: moisture is the main enemy. With a low moisture content you use around 30% less volume, produce two to three times less ash and your stove stays clean for longer.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Clean, verifiable pallet delivery</h3>
+<p class="mb-3">Goods are stored directly on pallets to guarantee delivery in perfect condition. They are placed in front of the building: no loose heap, no cleaning required and a quantity that is easy to check on delivery.</p>`,
+    price_eur: 300.49,
+    image_url: "/48-1.jpg",
+    gallery: ["/48-1.jpg", "/48-2.jpg", "/48-3.jpg", "/48-4.jpg"],
+    is_hot: true,
+    stock: 100,
+    created_at: "2026-11-07T10:00:00Z",
+  },
+  {
+    id: "prod-50",
+    slug: "granules-economiques-6-mm-palette-990-kg",
+    category_id: "cat-6",
+    name_de: "Günstige Holzpellets 6 mm · Palette 990 kg",
+    name_fr: "Granulés économiques 6 mm · Palette de 990 kg",
+    name_en: "Economical wood pellets 6 mm · 990 kg pallet",
+    subtitle_de: "Eine erschwingliche Lösung für den täglichen Gebrauch, mit bewährter Qualität und trockener Lagerung.",
+    subtitle_fr: "Une solution abordable pour un usage quotidien, une qualité éprouvée et un stockage au sec.",
+    subtitle_en: "An affordable solution for everyday use, with proven quality and dry storage.",
+    description_de: `<p class="mb-3"><strong>Sie suchen guten Brennstoff? Genau das machen wir!</strong></p>
+
+<p class="mb-3">Energiespar-Holzpellets 6 mm · Palette 990 kg: ein Produkt, das für seine Leistung und Gleichmäßigkeit ausgewählt wurde. Jede Charge wird vor der Verpackung kontrolliert, um konstante Wärme über den ganzen Winter und minimale Rückstände in Ihrem Ofen zu gewährleisten.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Die 5 Vorteile dieses Produkts</h3>
+<ul class="space-y-1 mb-3">
+  <li>Wirklich trockener, sofort einsatzbereiter Brennstoff.</li>
+  <li>Transparente Verpackung: Einzelsack oder komplette Palette</li>
+  <li>Ausgewählte und kontrollierte Rohstoffe</li>
+  <li>Kontrollierte Trocknung für eine saubere Verbrennung</li>
+  <li>Überprüfbare Menge dank Lieferung auf Palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Was bedeutet Leistung?</h3>
+<p class="mb-3">Ein gut getrockneter Brennstoff erzeugt eine Verbrennung mit hoher Wärmeabgabe. Feuchter Brennstoff entzündet sich schlecht, heizt wenig und verrußt den Schornstein: Feuchtigkeit ist der größte Feind. Bei niedrigem Feuchtigkeitsgehalt benötigen Sie etwa 30 % weniger Volumen, produzieren zwei- bis dreimal weniger Asche und Ihr Ofen bleibt länger sauber.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Saubere und überprüfbare Lieferung auf Palette</h3>
+<p class="mb-3">Die Ware wird direkt auf Paletten gelagert, um eine Lieferung in einwandfreiem Zustand zu gewährleisten. Sie wird vor dem Gebäude abgestellt: kein loser Haufen, keine Reinigung nötig und eine bei der Lieferung leicht zu überprüfende Menge.</p>`,
+    description_fr: `<p class="mb-3"><strong>Vous cherchez du bon carburant ? C'est tout ce que nous faisons !</strong></p>
+
+<p class="mb-3">Granulés à économie d'énergie 6 mm · Palette de 990 kg : un produit sélectionné pour ses performances et sa régularité. Chaque lot est contrôlé avant conditionnement afin de garantir une chaleur constante tout au long de l'hiver et de minimiser les résidus dans votre poêle.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Les 5 avantages de ce produit</h3>
+<ul class="space-y-1 mb-3">
+  <li>Carburant véritablement sec, prêt à l'emploi.</li>
+  <li>Emballage transparent : sac individuel ou palette complète</li>
+  <li>Matières premières sélectionnées et contrôlées</li>
+  <li>Séchage contrôlé pour une combustion propre</li>
+  <li>Quantité vérifiable grâce à la livraison sur palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Que signifie la performance ?</h3>
+<p class="mb-3">Un combustible bien sec produit une combustion à forte chaleur. Un combustible humide s'enflamme mal, chauffe peu et encrasse la cheminée : l'humidité reste le principal ennemi. Avec un faible taux d'humidité, vous utilisez environ 30 % de volume en moins, produisez deux à trois fois moins de cendres et votre poêle reste propre plus longtemps.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Livraison propre et vérifiable sur palette</h3>
+<p class="mb-3">Les marchandises sont stockées directement sur palettes afin de garantir une livraison en parfait état. Elles sont déposées devant le bâtiment : pas de tas en vrac, pas de nettoyage nécessaire et une quantité facile à vérifier à la livraison.</p>`,
+    description_en: `<p class="mb-3"><strong>Looking for good fuel? That's all we do!</strong></p>
+
+<p class="mb-3">Energy-saving wood pellets 6 mm · 990 kg pallet: a product selected for its performance and consistency. Every batch is checked before packaging to guarantee steady heat throughout the winter and minimal residue in your stove.</p>
+
+<h3 class="font-semibold mb-2 mt-5">The 5 benefits of this product</h3>
+<ul class="space-y-1 mb-3">
+  <li>Genuinely dry fuel, ready to use.</li>
+  <li>Transparent packaging: individual bag or full pallet</li>
+  <li>Selected and controlled raw materials</li>
+  <li>Controlled drying for clean combustion</li>
+  <li>Verifiable quantity thanks to pallet delivery</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">What does performance mean?</h3>
+<p class="mb-3">Well-dried fuel burns with a high heat output. Damp fuel ignites poorly, gives little heat and clogs the chimney: moisture is the main enemy. With a low moisture content you use around 30% less volume, produce two to three times less ash and your stove stays clean for longer.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Clean, verifiable pallet delivery</h3>
+<p class="mb-3">Goods are stored directly on pallets to guarantee delivery in perfect condition. They are placed in front of the building: no loose heap, no cleaning required and a quantity that is easy to check on delivery.</p>`,
+    price_eur: 298.59,
+    image_url: "/48-1.jpg",
+    gallery: ["/48-1.jpg", "/48-2.jpg", "/48-3.jpg", "/48-4.jpg"],
+    is_hot: true,
+    stock: 100,
+    created_at: "2026-11-07T10:01:00Z",
+  },
+  {
+    id: "prod-51",
+    slug: "granules-de-bois-enplus-a1-sac-unique-15-kg",
+    category_id: "cat-6",
+    name_de: "Holzpellets ENplus A1 · Einzelsack 15 kg",
+    name_fr: "Granulés de bois ENplus A1 · Sac unique de 15 kg",
+    name_en: "ENplus A1 wood pellets · 15 kg single bag",
+    subtitle_de: "Einzelsäcke für den kurzfristigen Bedarf, gleiche Qualität wie die Palette.",
+    subtitle_fr: "Sacs individuels pour besoins à court terme, même qualité que la palette.",
+    subtitle_en: "Individual bags for short-term needs, same quality as the pallet.",
+    description_de: `<p class="mb-3"><strong>Sie suchen guten Brennstoff? Genau das machen wir!</strong></p>
+
+<p class="mb-3">Holzpellets ENplus A1, 15-kg-Sack: ein Produkt, das für seine Leistung und Gleichmäßigkeit ausgewählt wurde. Jede Charge wird vor der Verpackung kontrolliert, um konstante Wärme über den ganzen Winter und minimale Rückstände in Ihrem Ofen zu gewährleisten.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Die 5 Vorteile dieses Produkts</h3>
+<ul class="space-y-1 mb-3">
+  <li>Wirklich trockener, sofort einsatzbereiter Brennstoff.</li>
+  <li>Transparente Verpackung: Einzelsack oder komplette Palette</li>
+  <li>Ausgewählte und kontrollierte Rohstoffe</li>
+  <li>Kontrollierte Trocknung für eine saubere Verbrennung</li>
+  <li>Überprüfbare Menge dank Lieferung auf Palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Was bedeutet Leistung?</h3>
+<p class="mb-3">Ein gut getrockneter Brennstoff erzeugt eine Verbrennung mit hoher Wärmeabgabe. Feuchter Brennstoff entzündet sich schlecht, heizt wenig und verrußt den Schornstein: Feuchtigkeit ist der größte Feind. Bei niedrigem Feuchtigkeitsgehalt benötigen Sie etwa 30 % weniger Volumen, produzieren zwei- bis dreimal weniger Asche und Ihr Ofen bleibt länger sauber.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Saubere und überprüfbare Lieferung auf Palette</h3>
+<p class="mb-3">Die Ware wird direkt auf Paletten gelagert, um eine Lieferung in einwandfreiem Zustand zu gewährleisten. Sie wird vor dem Gebäude abgestellt: kein loser Haufen, keine Reinigung nötig und eine bei der Lieferung leicht zu überprüfende Menge.</p>`,
+    description_fr: `<p class="mb-3"><strong>Vous cherchez du bon carburant ? C'est tout ce que nous faisons !</strong></p>
+
+<p class="mb-3">Granulés de bois ENplus A1, sac de 15 kg : un produit sélectionné pour ses performances et sa régularité. Chaque lot est contrôlé avant conditionnement afin de garantir une chaleur constante tout au long de l’hiver et de minimiser les résidus dans votre poêle.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Les 5 avantages de ce produit</h3>
+<ul class="space-y-1 mb-3">
+  <li>Carburant véritablement sec, prêt à l'emploi.</li>
+  <li>Emballage transparent : sac individuel ou palette complète</li>
+  <li>Matières premières sélectionnées et contrôlées</li>
+  <li>Séchage contrôlé pour une combustion propre</li>
+  <li>Quantité vérifiable grâce à la livraison sur palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Que signifie la performance ?</h3>
+<p class="mb-3">Un combustible bien sec produit une combustion à forte chaleur. Un combustible humide s'enflamme mal, chauffe peu et encrasse la cheminée : l'humidité reste le principal ennemi. Avec un faible taux d'humidité, vous utilisez environ 30 % de volume en moins, produisez deux à trois fois moins de cendres et votre poêle reste propre plus longtemps.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Livraison propre et vérifiable sur palette</h3>
+<p class="mb-3">Les marchandises sont stockées directement sur palettes afin de garantir une livraison en parfait état. Elles sont déposées devant le bâtiment : pas de tas en vrac, pas de nettoyage nécessaire et une quantité facile à vérifier à la livraison.</p>`,
+    description_en: `<p class="mb-3"><strong>Looking for good fuel? That's all we do!</strong></p>
+
+<p class="mb-3">ENplus A1 wood pellets, 15 kg bag: a product selected for its performance and consistency. Every batch is checked before packaging to guarantee steady heat throughout the winter and minimal residue in your stove.</p>
+
+<h3 class="font-semibold mb-2 mt-5">The 5 benefits of this product</h3>
+<ul class="space-y-1 mb-3">
+  <li>Genuinely dry fuel, ready to use.</li>
+  <li>Transparent packaging: individual bag or full pallet</li>
+  <li>Selected and controlled raw materials</li>
+  <li>Controlled drying for clean combustion</li>
+  <li>Verifiable quantity thanks to pallet delivery</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">What does performance mean?</h3>
+<p class="mb-3">Well-dried fuel burns with a high heat output. Damp fuel ignites poorly, gives little heat and clogs the chimney: moisture is the main enemy. With a low moisture content you use around 30% less volume, produce two to three times less ash and your stove stays clean for longer.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Clean, verifiable pallet delivery</h3>
+<p class="mb-3">Goods are stored directly on pallets to guarantee delivery in perfect condition. They are placed in front of the building: no loose heap, no cleaning required and a quantity that is easy to check on delivery.</p>`,
+    price_eur: 7.99,
+    image_url: "/48-1.jpg",
+    gallery: ["/48-1.jpg", "/48-2.jpg", "/48-3.jpg", "/48-4.jpg"],
+    is_hot: true,
+    stock: 100,
+    created_at: "2026-11-07T10:02:00Z",
+  },
+  {
+    id: "prod-52",
+    slug: "briquettes-de-bois-dur-palette-960-kg",
+    category_id: "cat-7",
+    name_de: "Hartholzbriketts · Palette 960 kg",
+    name_fr: "Briquettes de bois dur · Palette de 960 kg",
+    name_en: "Hardwood briquettes · 960 kg pallet",
+    subtitle_de: "Gepresste Hartholzbriketts ohne Bindemittel, lange Brenndauer und gleichmäßige Wärme.",
+    subtitle_fr: "Briquettes de bois dur pressées sans liants, longue durée de combustion et chaleur uniforme.",
+    subtitle_en: "Binder-free pressed hardwood briquettes, long burn time and even heat.",
+    description_de: `<p class="mb-3"><strong>Sie suchen guten Brennstoff? Genau das machen wir!</strong></p>
+
+<p class="mb-3">Hartholzbriketts · Palette 960 kg: ein Produkt, das für seine Leistung und Gleichmäßigkeit ausgewählt wurde. Jede Charge wird vor der Verpackung geprüft, um konstante Wärme über den ganzen Winter und minimale Rückstände in Ihrem Ofen zu gewährleisten.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Die 5 Vorteile dieses Produkts</h3>
+<ul class="space-y-1 mb-3">
+  <li>Wirklich trockener, sofort einsatzbereiter Brennstoff.</li>
+  <li>Transparente Verpackung: Einzelsack oder komplette Palette</li>
+  <li>Ausgewählte und kontrollierte Rohstoffe</li>
+  <li>Kontrollierte Trocknung für eine saubere Verbrennung</li>
+  <li>Überprüfbare Menge dank Lieferung auf Palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Was bedeutet Leistung?</h3>
+<p class="mb-3">Ein gut getrockneter Brennstoff erzeugt eine Verbrennung mit hoher Wärmeabgabe. Feuchter Brennstoff entzündet sich schlecht, heizt wenig und verrußt den Schornstein: Feuchtigkeit ist der größte Feind. Bei niedrigem Feuchtigkeitsgehalt benötigen Sie etwa 30 % weniger Volumen, produzieren zwei- bis dreimal weniger Asche und Ihr Ofen bleibt länger sauber.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Saubere und überprüfbare Lieferung auf Palette</h3>
+<p class="mb-3">Die Ware wird direkt auf Paletten gelagert, um eine Lieferung in einwandfreiem Zustand zu gewährleisten. Sie wird vor dem Gebäude abgestellt: kein loser Haufen, keine Reinigung nötig und eine bei der Lieferung leicht zu überprüfende Menge.</p>`,
+    description_fr: `<p class="mb-3"><strong>Vous cherchez du bon carburant ? C'est tout ce que nous faisons !</strong></p>
+
+<p class="mb-3">Briquettes de bois dur · Palette de 960 kg : un produit sélectionné pour sa performance et sa régularité. Chaque lot est inspecté avant l'emballage afin de garantir une chaleur constante tout au long de l'hiver et de minimiser les résidus dans votre poêle.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Les 5 avantages de ce produit</h3>
+<ul class="space-y-1 mb-3">
+  <li>Carburant véritablement sec, prêt à l'emploi.</li>
+  <li>Emballage transparent : sac individuel ou palette complète</li>
+  <li>Matières premières sélectionnées et contrôlées</li>
+  <li>Séchage contrôlé pour une combustion propre</li>
+  <li>Quantité vérifiable grâce à la livraison sur palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Que signifie la performance ?</h3>
+<p class="mb-3">Un combustible bien sec produit une combustion à forte chaleur. Un combustible humide s'enflamme mal, chauffe peu et encrasse la cheminée : l'humidité reste le principal ennemi. Avec un faible taux d'humidité, vous utilisez environ 30 % de volume en moins, produisez deux à trois fois moins de cendres et votre poêle reste propre plus longtemps.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Livraison propre et vérifiable sur palette</h3>
+<p class="mb-3">Les marchandises sont stockées directement sur palettes afin de garantir une livraison en parfait état. Elles sont déposées devant le bâtiment : pas de tas en vrac, pas de nettoyage nécessaire et une quantité facile à vérifier à la livraison.</p>`,
+    description_en: `<p class="mb-3"><strong>Looking for good fuel? That's all we do!</strong></p>
+
+<p class="mb-3">Hardwood briquettes · 960 kg pallet: a product selected for its performance and consistency. Every batch is inspected before packaging to guarantee steady heat throughout the winter and minimal residue in your stove.</p>
+
+<h3 class="font-semibold mb-2 mt-5">The 5 benefits of this product</h3>
+<ul class="space-y-1 mb-3">
+  <li>Genuinely dry fuel, ready to use.</li>
+  <li>Transparent packaging: individual bag or full pallet</li>
+  <li>Selected and controlled raw materials</li>
+  <li>Controlled drying for clean combustion</li>
+  <li>Verifiable quantity thanks to pallet delivery</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">What does performance mean?</h3>
+<p class="mb-3">Well-dried fuel burns with a high heat output. Damp fuel ignites poorly, gives little heat and clogs the chimney: moisture is the main enemy. With a low moisture content you use around 30% less volume, produce two to three times less ash and your stove stays clean for longer.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Clean, verifiable pallet delivery</h3>
+<p class="mb-3">Goods are stored directly on pallets to guarantee delivery in perfect condition. They are placed in front of the building: no loose heap, no cleaning required and a quantity that is easy to check on delivery.</p>`,
+    price_eur: 325.58,
+    image_url: "/49-1.jpg",
+    gallery: ["/49-1.jpg", "/49-2.jpg", "/49-3.jpg", "/49-4.jpg"],
+    is_hot: true,
+    stock: 100,
+    created_at: "2026-11-07T10:03:00Z",
+  },
+  {
+    id: "prod-53",
+    slug: "briquettes-rondes-usage-nocturne-palette-900-kg",
+    category_id: "cat-7",
+    name_de: "Runde Briketts für den Nachtbetrieb · Palette 900 kg",
+    name_fr: "Briquettes rondes pour usage nocturne · Palette de 900 kg",
+    name_en: "Round briquettes for night use · 900 kg pallet",
+    subtitle_de: "Gelochte runde Briketts: Glut die ganze Nacht brennen lassen und bis zum Morgen heizen.",
+    subtitle_fr: "Briquettes rondes percées : laisser les braises brûler toute la nuit et chauffer jusqu'au matin.",
+    subtitle_en: "Perforated round briquettes: let the embers burn all night and keep heating until morning.",
+    description_de: `<p class="mb-3"><strong>Sie suchen guten Brennstoff? Genau das machen wir!</strong></p>
+
+<p class="mb-3">Runde Briketts für den Nachtbetrieb · Palette 900 kg: ein Produkt, das für seine Leistung und Gleichmäßigkeit ausgewählt wurde. Jede Charge wird vor der Verpackung geprüft, um konstante Wärme über den ganzen Winter und minimale Rückstände in Ihrem Ofen zu gewährleisten.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Die 5 Vorteile dieses Produkts</h3>
+<ul class="space-y-1 mb-3">
+  <li>Wirklich trockener, sofort einsatzbereiter Brennstoff.</li>
+  <li>Transparente Verpackung: Einzelsack oder komplette Palette</li>
+  <li>Ausgewählte und kontrollierte Rohstoffe</li>
+  <li>Kontrollierte Trocknung für eine saubere Verbrennung</li>
+  <li>Überprüfbare Menge dank Lieferung auf Palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Was bedeutet Leistung?</h3>
+<p class="mb-3">Ein gut getrockneter Brennstoff erzeugt eine Verbrennung mit hoher Wärmeabgabe. Feuchter Brennstoff entzündet sich schlecht, heizt wenig und verrußt den Schornstein: Feuchtigkeit ist der größte Feind. Bei niedrigem Feuchtigkeitsgehalt benötigen Sie etwa 30 % weniger Volumen, produzieren zwei- bis dreimal weniger Asche und Ihr Ofen bleibt länger sauber.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Saubere und überprüfbare Lieferung auf Palette</h3>
+<p class="mb-3">Die Ware wird direkt auf Paletten gelagert, um eine Lieferung in einwandfreiem Zustand zu gewährleisten. Sie wird vor dem Gebäude abgestellt: kein loser Haufen, keine Reinigung nötig und eine bei der Lieferung leicht zu überprüfende Menge.</p>`,
+    description_fr: `<p class="mb-3"><strong>Vous cherchez du bon carburant ? C'est tout ce que nous faisons !</strong></p>
+
+<p class="mb-3">Briquettes rondes pour une utilisation nocturne · Palette de 900 kg : un produit sélectionné pour sa performance et sa régularité. Chaque lot est inspecté avant emballage afin de garantir une chaleur constante tout au long de l’hiver et de minimiser les résidus dans votre poêle.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Les 5 avantages de ce produit</h3>
+<ul class="space-y-1 mb-3">
+  <li>Carburant véritablement sec, prêt à l'emploi.</li>
+  <li>Emballage transparent : sac individuel ou palette complète</li>
+  <li>Matières premières sélectionnées et contrôlées</li>
+  <li>Séchage contrôlé pour une combustion propre</li>
+  <li>Quantité vérifiable grâce à la livraison sur palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Que signifie la performance ?</h3>
+<p class="mb-3">Un combustible bien sec produit une combustion à forte chaleur. Un combustible humide s'enflamme mal, chauffe peu et encrasse la cheminée : l'humidité reste le principal ennemi. Avec un faible taux d'humidité, vous utilisez environ 30 % de volume en moins, produisez deux à trois fois moins de cendres et votre poêle reste propre plus longtemps.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Livraison propre et vérifiable sur palette</h3>
+<p class="mb-3">Les marchandises sont stockées directement sur palettes afin de garantir une livraison en parfait état. Elles sont déposées devant le bâtiment : pas de tas en vrac, pas de nettoyage nécessaire et une quantité facile à vérifier à la livraison.</p>`,
+    description_en: `<p class="mb-3"><strong>Looking for good fuel? That's all we do!</strong></p>
+
+<p class="mb-3">Round briquettes for night use · 900 kg pallet: a product selected for its performance and consistency. Every batch is inspected before packaging to guarantee steady heat throughout the winter and minimal residue in your stove.</p>
+
+<h3 class="font-semibold mb-2 mt-5">The 5 benefits of this product</h3>
+<ul class="space-y-1 mb-3">
+  <li>Genuinely dry fuel, ready to use.</li>
+  <li>Transparent packaging: individual bag or full pallet</li>
+  <li>Selected and controlled raw materials</li>
+  <li>Controlled drying for clean combustion</li>
+  <li>Verifiable quantity thanks to pallet delivery</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">What does performance mean?</h3>
+<p class="mb-3">Well-dried fuel burns with a high heat output. Damp fuel ignites poorly, gives little heat and clogs the chimney: moisture is the main enemy. With a low moisture content you use around 30% less volume, produce two to three times less ash and your stove stays clean for longer.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Clean, verifiable pallet delivery</h3>
+<p class="mb-3">Goods are stored directly on pallets to guarantee delivery in perfect condition. They are placed in front of the building: no loose heap, no cleaning required and a quantity that is easy to check on delivery.</p>`,
+    price_eur: 375.20,
+    image_url: "/49-1.jpg",
+    gallery: ["/49-1.jpg", "/49-2.jpg", "/49-3.jpg", "/49-4.jpg"],
+    is_hot: true,
+    stock: 100,
+    created_at: "2026-11-07T10:04:00Z",
+  },
+  {
+    id: "prod-54",
+    slug: "bois-de-chauffage-chene-33-cm-2-metres-cubes",
+    category_id: "cat-4",
+    name_de: "Eichen-Brennholz, 33 cm Durchmesser, 2 Kubikmeter",
+    name_fr: "Bois de chauffage en chêne, 33 cm de diamètre, 2 mètres cubes",
+    name_en: "Oak firewood, 33 cm diameter, 2 cubic metres",
+    subtitle_de: "Ofengetrocknete Eiche, auf 33 cm gesägt, ofenfertig und auf Palette geliefert.",
+    subtitle_fr: "Chêne séché au four, scié à 33 cm, prêt pour le four et livré sur palette.",
+    subtitle_en: "Oven-dried oak, cut to 33 cm, ready for the stove and delivered on a pallet.",
+    description_de: `<p class="mb-3"><strong>Sie suchen guten Brennstoff? Genau das machen wir!</strong></p>
+
+<p class="mb-3">Eichen-Brennholz 33 cm · 2 Kubikmeter: ein Produkt, das für seine Leistung und Gleichmäßigkeit ausgewählt wurde. Jede Charge wird vor der Verpackung geprüft, um konstante Wärme über den ganzen Winter und minimale Rückstände in Ihrem Ofen zu gewährleisten.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Die 5 Vorteile dieses Produkts</h3>
+<ul class="space-y-1 mb-3">
+  <li>Wirklich trockener, sofort einsatzbereiter Brennstoff.</li>
+  <li>Transparente Verpackung: Einzelsack oder komplette Palette</li>
+  <li>Ausgewählte und kontrollierte Rohstoffe</li>
+  <li>Kontrollierte Trocknung für eine saubere Verbrennung</li>
+  <li>Überprüfbare Menge dank Lieferung auf Palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Was bedeutet Leistung?</h3>
+<p class="mb-3">Ein gut getrockneter Brennstoff erzeugt eine Verbrennung mit hoher Wärmeabgabe. Feuchter Brennstoff entzündet sich schlecht, heizt wenig und verrußt den Schornstein: Feuchtigkeit ist der größte Feind. Bei niedrigem Feuchtigkeitsgehalt benötigen Sie etwa 30 % weniger Volumen, produzieren zwei- bis dreimal weniger Asche und Ihr Ofen bleibt länger sauber.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Saubere und überprüfbare Lieferung auf Palette</h3>
+<p class="mb-3">Die Ware wird direkt auf Paletten gelagert, um eine Lieferung in einwandfreiem Zustand zu gewährleisten. Sie wird vor dem Gebäude abgestellt: kein loser Haufen, keine Reinigung nötig und eine bei der Lieferung leicht zu überprüfende Menge.</p>`,
+    description_fr: `<p class="mb-3"><strong>Vous cherchez du bon carburant ? C'est tout ce que nous faisons !</strong></p>
+
+<p class="mb-3">Bois de chauffage en chêne 33 cm · 2 mètres cubes : un produit sélectionné pour ses performances et sa régularité. Chaque lot est inspecté avant l’emballage afin de garantir une chaleur constante tout au long de l’hiver et de minimiser les résidus dans votre poêle.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Les 5 avantages de ce produit</h3>
+<ul class="space-y-1 mb-3">
+  <li>Carburant véritablement sec, prêt à l'emploi.</li>
+  <li>Emballage transparent : sac individuel ou palette complète</li>
+  <li>Matières premières sélectionnées et contrôlées</li>
+  <li>Séchage contrôlé pour une combustion propre</li>
+  <li>Quantité vérifiable grâce à la livraison sur palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Que signifie la performance ?</h3>
+<p class="mb-3">Un combustible bien sec produit une combustion à forte chaleur. Un combustible humide s'enflamme mal, chauffe peu et encrasse la cheminée : l'humidité reste le principal ennemi. Avec un faible taux d'humidité, vous utilisez environ 30 % de volume en moins, produisez deux à trois fois moins de cendres et votre poêle reste propre plus longtemps.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Livraison propre et vérifiable sur palette</h3>
+<p class="mb-3">Les marchandises sont stockées directement sur palettes afin de garantir une livraison en parfait état. Elles sont déposées devant le bâtiment : pas de tas en vrac, pas de nettoyage nécessaire et une quantité facile à vérifier à la livraison.</p>`,
+    description_en: `<p class="mb-3"><strong>Looking for good fuel? That's all we do!</strong></p>
+
+<p class="mb-3">Oak firewood 33 cm · 2 cubic metres: a product selected for its performance and consistency. Every batch is inspected before packaging to guarantee steady heat throughout the winter and minimal residue in your stove.</p>
+
+<h3 class="font-semibold mb-2 mt-5">The 5 benefits of this product</h3>
+<ul class="space-y-1 mb-3">
+  <li>Genuinely dry fuel, ready to use.</li>
+  <li>Transparent packaging: individual bag or full pallet</li>
+  <li>Selected and controlled raw materials</li>
+  <li>Controlled drying for clean combustion</li>
+  <li>Verifiable quantity thanks to pallet delivery</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">What does performance mean?</h3>
+<p class="mb-3">Well-dried fuel burns with a high heat output. Damp fuel ignites poorly, gives little heat and clogs the chimney: moisture is the main enemy. With a low moisture content you use around 30% less volume, produce two to three times less ash and your stove stays clean for longer.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Clean, verifiable pallet delivery</h3>
+<p class="mb-3">Goods are stored directly on pallets to guarantee delivery in perfect condition. They are placed in front of the building: no loose heap, no cleaning required and a quantity that is easy to check on delivery.</p>`,
+    price_eur: 237.49,
+    image_url: "/50-1.jpg",
+    gallery: ["/50-1.jpg", "/50-1.jpg", "/50-1.jpg", "/50-1.jpg"],
+    is_hot: true,
+    stock: 100,
+    created_at: "2026-11-07T10:05:00Z",
+  },
+  {
+    id: "prod-55",
+    slug: "bois-de-chauffage-hetre-25-cm-1-metre-cube",
+    category_id: "cat-4",
+    name_de: "Buchen-Brennholz 25 cm · 1 Kubikmeter",
+    name_fr: "Bois de chauffage Hêtre 25 cm · 1 mètre cube",
+    name_en: "Beech firewood 25 cm · 1 cubic metre",
+    subtitle_de: "Buchenholzscheite von 25 cm, ideal für Kamine und Holzöfen, sofort brennbereit.",
+    subtitle_fr: "Bûches de hêtre de 25 cm, idéales pour les cheminées et les poêles à bois, prêtes à brûler immédiatement.",
+    subtitle_en: "25 cm beech logs, ideal for fireplaces and wood stoves, ready to burn immediately.",
+    description_de: `<p class="mb-3"><strong>Sie suchen guten Brennstoff? Genau das machen wir!</strong></p>
+
+<p class="mb-3">Buchen-Brennholz, 25 cm Durchmesser, 1 Kubikmeter: ein Produkt, das für seine Leistung und Gleichmäßigkeit ausgewählt wurde. Jede Charge wird vor der Verpackung kontrolliert, um konstante Wärme über den ganzen Winter und minimale Rückstände in Ihrem Ofen zu gewährleisten.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Die 5 Vorteile dieses Produkts</h3>
+<ul class="space-y-1 mb-3">
+  <li>Wirklich trockener, sofort einsatzbereiter Brennstoff.</li>
+  <li>Transparente Verpackung: Einzelsack oder komplette Palette</li>
+  <li>Ausgewählte und kontrollierte Rohstoffe</li>
+  <li>Kontrollierte Trocknung für eine saubere Verbrennung</li>
+  <li>Überprüfbare Menge dank Lieferung auf Palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Was bedeutet Leistung?</h3>
+<p class="mb-3">Ein gut getrockneter Brennstoff erzeugt eine Verbrennung mit hoher Wärmeabgabe. Feuchter Brennstoff entzündet sich schlecht, heizt wenig und verrußt den Schornstein: Feuchtigkeit ist der größte Feind. Bei niedrigem Feuchtigkeitsgehalt benötigen Sie etwa 30 % weniger Volumen, produzieren zwei- bis dreimal weniger Asche und Ihr Ofen bleibt länger sauber.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Saubere und überprüfbare Lieferung auf Palette</h3>
+<p class="mb-3">Die Ware wird direkt auf Paletten gelagert, um eine Lieferung in einwandfreiem Zustand zu gewährleisten. Sie wird vor dem Gebäude abgestellt: kein loser Haufen, keine Reinigung nötig und eine bei der Lieferung leicht zu überprüfende Menge.</p>`,
+    description_fr: `<p class="mb-3"><strong>Vous cherchez du bon carburant ? C'est tout ce que nous faisons !</strong></p>
+
+<p class="mb-3">Bois de chauffage de hêtre, 25 cm de diamètre, 1 mètre cube : un produit sélectionné pour ses performances et sa régularité. Chaque lot est contrôlé avant emballage afin de garantir une chaleur constante tout au long de l’hiver et de minimiser les résidus dans votre poêle.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Les 5 avantages de ce produit</h3>
+<ul class="space-y-1 mb-3">
+  <li>Carburant véritablement sec, prêt à l'emploi.</li>
+  <li>Emballage transparent : sac individuel ou palette complète</li>
+  <li>Matières premières sélectionnées et contrôlées</li>
+  <li>Séchage contrôlé pour une combustion propre</li>
+  <li>Quantité vérifiable grâce à la livraison sur palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Que signifie la performance ?</h3>
+<p class="mb-3">Un combustible bien sec produit une combustion à forte chaleur. Un combustible humide s'enflamme mal, chauffe peu et encrasse la cheminée : l'humidité reste le principal ennemi. Avec un faible taux d'humidité, vous utilisez environ 30 % de volume en moins, produisez deux à trois fois moins de cendres et votre poêle reste propre plus longtemps.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Livraison propre et vérifiable sur palette</h3>
+<p class="mb-3">Les marchandises sont stockées directement sur palettes afin de garantir une livraison en parfait état. Elles sont déposées devant le bâtiment : pas de tas en vrac, pas de nettoyage nécessaire et une quantité facile à vérifier à la livraison.</p>`,
+    description_en: `<p class="mb-3"><strong>Looking for good fuel? That's all we do!</strong></p>
+
+<p class="mb-3">Beech firewood, 25 cm diameter, 1 cubic metre: a product selected for its performance and consistency. Every batch is checked before packaging to guarantee steady heat throughout the winter and minimal residue in your stove.</p>
+
+<h3 class="font-semibold mb-2 mt-5">The 5 benefits of this product</h3>
+<ul class="space-y-1 mb-3">
+  <li>Genuinely dry fuel, ready to use.</li>
+  <li>Transparent packaging: individual bag or full pallet</li>
+  <li>Selected and controlled raw materials</li>
+  <li>Controlled drying for clean combustion</li>
+  <li>Verifiable quantity thanks to pallet delivery</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">What does performance mean?</h3>
+<p class="mb-3">Well-dried fuel burns with a high heat output. Damp fuel ignites poorly, gives little heat and clogs the chimney: moisture is the main enemy. With a low moisture content you use around 30% less volume, produce two to three times less ash and your stove stays clean for longer.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Clean, verifiable pallet delivery</h3>
+<p class="mb-3">Goods are stored directly on pallets to guarantee delivery in perfect condition. They are placed in front of the building: no loose heap, no cleaning required and a quantity that is easy to check on delivery.</p>`,
+    price_eur: 169.00,
+    image_url: "/50-2.jpg",
+    gallery: ["/50-2.jpg", "/50-2.jpg", "/50-2.jpg", "/50-2.jpg"],
+    is_hot: true,
+    stock: 100,
+    created_at: "2026-11-07T10:06:00Z",
+  },
+  {
+    id: "prod-56",
+    slug: "4-palettes-bois-de-chauffage-chene-blanc-hetre-charme-buches-40-cm",
+    category_id: "cat-4",
+    name_de: "4 Paletten Brennholz (2 Weißeichen + 2 Buchen/Hainbuchen) · Scheite 40 cm",
+    name_fr: "4 palettes de bois de chauffage (2 chênes blancs + 2 hêtres/charme) · bûches de 40 cm",
+    name_en: "4 pallets of firewood (2 white oak + 2 beech/hornbeam) · 40 cm logs",
+    subtitle_de: "Extra trockenes Brennholz aus Weißeiche, Buche und Hainbuche, mindestens 48 Monate getrocknet, Scheitlänge 40 cm.",
+    subtitle_fr: "Bois de chauffage extra sec composé de chêne blanc, de hêtre et de charme, séché pendant au moins 48 mois, longueur des bûches 40 cm.",
+    subtitle_en: "Extra-dry firewood made of white oak, beech and hornbeam, dried for at least 48 months, log length 40 cm.",
+    description_de: `<p class="mb-3"><strong>Sie suchen guten Brennstoff? Genau das machen wir!</strong></p>
+
+<p class="mb-3">4 Paletten Brennholz (2 Weißeichen + 2 Buchen/Hainbuchen) · Scheite 40 cm: ein Produkt, das für seine Leistung und Gleichmäßigkeit ausgewählt wurde. Jede Charge wird vor der Verpackung geprüft, um konstante Wärme über den ganzen Winter und minimale Rückstände in Ihrem Ofen zu gewährleisten.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Die 5 Vorteile dieses Produkts</h3>
+<ul class="space-y-1 mb-3">
+  <li>Wirklich trockener, sofort einsatzbereiter Brennstoff.</li>
+  <li>Transparente Verpackung: Einzelsack oder komplette Palette</li>
+  <li>Ausgewählte und kontrollierte Rohstoffe</li>
+  <li>Kontrollierte Trocknung für eine saubere Verbrennung</li>
+  <li>Überprüfbare Menge dank Lieferung auf Palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Was bedeutet Leistung?</h3>
+<p class="mb-3">Ein gut getrockneter Brennstoff erzeugt eine Verbrennung mit hoher Wärmeabgabe. Feuchter Brennstoff entzündet sich schlecht, heizt wenig und verrußt den Schornstein: Feuchtigkeit ist der größte Feind. Bei niedrigem Feuchtigkeitsgehalt benötigen Sie etwa 30 % weniger Volumen, produzieren zwei- bis dreimal weniger Asche und Ihr Ofen bleibt länger sauber.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Saubere und überprüfbare Lieferung auf Palette</h3>
+<p class="mb-3">Die Ware wird direkt auf Paletten gelagert, um eine Lieferung in einwandfreiem Zustand zu gewährleisten. Sie wird vor dem Gebäude abgestellt: kein loser Haufen, keine Reinigung nötig und eine bei der Lieferung leicht zu überprüfende Menge.</p>`,
+    description_fr: `<p class="mb-3"><strong>Vous cherchez du bon carburant ? C'est tout ce que nous faisons !</strong></p>
+
+<p class="mb-3">4 palettes de bois de chauffage (2 chênes blancs + 2 hêtres/charme) · bûches de 40 cm : un produit sélectionné pour sa performance et sa régularité. Chaque lot est inspecté avant emballage afin de garantir une chaleur constante tout au long de l’hiver et de minimiser les résidus dans votre poêle.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Les 5 avantages de ce produit</h3>
+<ul class="space-y-1 mb-3">
+  <li>Carburant véritablement sec, prêt à l'emploi.</li>
+  <li>Emballage transparent : sac individuel ou palette complète</li>
+  <li>Matières premières sélectionnées et contrôlées</li>
+  <li>Séchage contrôlé pour une combustion propre</li>
+  <li>Quantité vérifiable grâce à la livraison sur palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Que signifie la performance ?</h3>
+<p class="mb-3">Un combustible bien sec produit une combustion à forte chaleur. Un combustible humide s'enflamme mal, chauffe peu et encrasse la cheminée : l'humidité reste le principal ennemi. Avec un faible taux d'humidité, vous utilisez environ 30 % de volume en moins, produisez deux à trois fois moins de cendres et votre poêle reste propre plus longtemps.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Livraison propre et vérifiable sur palette</h3>
+<p class="mb-3">Les marchandises sont stockées directement sur palettes afin de garantir une livraison en parfait état. Elles sont déposées devant le bâtiment : pas de tas en vrac, pas de nettoyage nécessaire et une quantité facile à vérifier à la livraison.</p>`,
+    description_en: `<p class="mb-3"><strong>Looking for good fuel? That's all we do!</strong></p>
+
+<p class="mb-3">4 pallets of firewood (2 white oak + 2 beech/hornbeam) · 40 cm logs: a product selected for its performance and consistency. Every batch is inspected before packaging to guarantee steady heat throughout the winter and minimal residue in your stove.</p>
+
+<h3 class="font-semibold mb-2 mt-5">The 5 benefits of this product</h3>
+<ul class="space-y-1 mb-3">
+  <li>Genuinely dry fuel, ready to use.</li>
+  <li>Transparent packaging: individual bag or full pallet</li>
+  <li>Selected and controlled raw materials</li>
+  <li>Controlled drying for clean combustion</li>
+  <li>Verifiable quantity thanks to pallet delivery</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">What does performance mean?</h3>
+<p class="mb-3">Well-dried fuel burns with a high heat output. Damp fuel ignites poorly, gives little heat and clogs the chimney: moisture is the main enemy. With a low moisture content you use around 30% less volume, produce two to three times less ash and your stove stays clean for longer.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Clean, verifiable pallet delivery</h3>
+<p class="mb-3">Goods are stored directly on pallets to guarantee delivery in perfect condition. They are placed in front of the building: no loose heap, no cleaning required and a quantity that is easy to check on delivery.</p>`,
+    price_eur: 275.95,
+    image_url: "/50-3.jpg",
+    gallery: ["/50-3.jpg", "/50-3.jpg", "/50-3.jpg", "/50-3.jpg"],
+    is_hot: true,
+    stock: 100,
+    created_at: "2026-11-07T10:07:00Z",
+  },
+  {
+    id: "prod-57",
+    slug: "bois-rond-de-hetre-chargement-complet-50-metres-cubes",
+    category_id: "cat-4",
+    name_de: "Buchen-Rundholz · Komplette Ladung 50 Kubikmeter",
+    name_fr: "Bois rond de hêtre · Chargement complet de 50 mètres cubes",
+    name_en: "Beech roundwood · Full load of 50 cubic metres",
+    subtitle_de: "Erstklassige Buchenstämme, 50 Kubikmeter als komplette Lkw-Ladung, Stammlänge 2 m, Durchmesser 6 bis 25 cm.",
+    subtitle_fr: "Grumes de hêtre de première qualité, 50 mètres cubes en chargement complet de camion, longueur des grumes 2 m, diamètre de 6 à 25 cm.",
+    subtitle_en: "First-quality beech logs, 50 cubic metres as a full truck load, log length 2 m, diameter 6 to 25 cm.",
+    description_de: `<p class="mb-3"><strong>Sie suchen guten Brennstoff? Genau das machen wir!</strong></p>
+
+<p class="mb-3">Buchen-Rundholz · Komplette Ladung 50 Kubikmeter: ein Produkt, das für seine Leistung und Gleichmäßigkeit ausgewählt wurde. Jede Charge wird vor der Verpackung geprüft, um konstante Wärme über den ganzen Winter und minimale Rückstände in Ihrem Ofen zu gewährleisten.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Die 5 Vorteile dieses Produkts</h3>
+<ul class="space-y-1 mb-3">
+  <li>Wirklich trockener, sofort einsatzbereiter Brennstoff.</li>
+  <li>Transparente Verpackung: Einzelsack oder komplette Palette</li>
+  <li>Ausgewählte und kontrollierte Rohstoffe</li>
+  <li>Kontrollierte Trocknung für eine saubere Verbrennung</li>
+  <li>Überprüfbare Menge dank Lieferung auf Palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Was bedeutet Leistung?</h3>
+<p class="mb-3">Ein gut getrockneter Brennstoff erzeugt eine Verbrennung mit hoher Wärmeabgabe. Feuchter Brennstoff entzündet sich schlecht, heizt wenig und verrußt den Schornstein: Feuchtigkeit ist der größte Feind. Bei niedrigem Feuchtigkeitsgehalt benötigen Sie etwa 30 % weniger Volumen, produzieren zwei- bis dreimal weniger Asche und Ihr Ofen bleibt länger sauber.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Saubere und überprüfbare Lieferung auf Palette</h3>
+<p class="mb-3">Die Ware wird direkt auf Paletten gelagert, um eine Lieferung in einwandfreiem Zustand zu gewährleisten. Sie wird vor dem Gebäude abgestellt: kein loser Haufen, keine Reinigung nötig und eine bei der Lieferung leicht zu überprüfende Menge.</p>`,
+    description_fr: `<p class="mb-3"><strong>Vous cherchez du bon carburant ? C'est tout ce que nous faisons !</strong></p>
+
+<p class="mb-3">Bois rond de hêtre · Chargement complet de 50 mètres cubes : un produit sélectionné pour sa performance et sa régularité. Chaque lot est inspecté avant emballage afin de garantir une chaleur constante tout au long de l’hiver et de minimiser les résidus dans votre poêle.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Les 5 avantages de ce produit</h3>
+<ul class="space-y-1 mb-3">
+  <li>Carburant véritablement sec, prêt à l'emploi.</li>
+  <li>Emballage transparent : sac individuel ou palette complète</li>
+  <li>Matières premières sélectionnées et contrôlées</li>
+  <li>Séchage contrôlé pour une combustion propre</li>
+  <li>Quantité vérifiable grâce à la livraison sur palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Que signifie la performance ?</h3>
+<p class="mb-3">Un combustible bien sec produit une combustion à forte chaleur. Un combustible humide s'enflamme mal, chauffe peu et encrasse la cheminée : l'humidité reste le principal ennemi. Avec un faible taux d'humidité, vous utilisez environ 30 % de volume en moins, produisez deux à trois fois moins de cendres et votre poêle reste propre plus longtemps.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Livraison propre et vérifiable sur palette</h3>
+<p class="mb-3">Les marchandises sont stockées directement sur palettes afin de garantir une livraison en parfait état. Elles sont déposées devant le bâtiment : pas de tas en vrac, pas de nettoyage nécessaire et une quantité facile à vérifier à la livraison.</p>`,
+    description_en: `<p class="mb-3"><strong>Looking for good fuel? That's all we do!</strong></p>
+
+<p class="mb-3">Beech roundwood · Full load of 50 cubic metres: a product selected for its performance and consistency. Every batch is inspected before packaging to guarantee steady heat throughout the winter and minimal residue in your stove.</p>
+
+<h3 class="font-semibold mb-2 mt-5">The 5 benefits of this product</h3>
+<ul class="space-y-1 mb-3">
+  <li>Genuinely dry fuel, ready to use.</li>
+  <li>Transparent packaging: individual bag or full pallet</li>
+  <li>Selected and controlled raw materials</li>
+  <li>Controlled drying for clean combustion</li>
+  <li>Verifiable quantity thanks to pallet delivery</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">What does performance mean?</h3>
+<p class="mb-3">Well-dried fuel burns with a high heat output. Damp fuel ignites poorly, gives little heat and clogs the chimney: moisture is the main enemy. With a low moisture content you use around 30% less volume, produce two to three times less ash and your stove stays clean for longer.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Clean, verifiable pallet delivery</h3>
+<p class="mb-3">Goods are stored directly on pallets to guarantee delivery in perfect condition. They are placed in front of the building: no loose heap, no cleaning required and a quantity that is easy to check on delivery.</p>`,
+    price_eur: 875.96,
+    image_url: "/50-4.jpg",
+    gallery: ["/50-4.jpg", "/50-4.jpg", "/50-4.jpg", "/50-4.jpg"],
+    is_hot: true,
+    stock: 100,
+    created_at: "2026-11-07T10:08:00Z",
+  },
+  {
+    id: "prod-58",
+    slug: "briquettes-de-lignite-palette-900-kg",
+    category_id: "cat-4",
+    name_de: "Braunkohlebriketts · Palette 900 kg",
+    name_fr: "Briquettes de lignite · Palette de 900 kg",
+    name_en: "Lignite briquettes · 900 kg pallet",
+    subtitle_de: "Klassische Braunkohlebriketts für Dauerbrandöfen, hoher Heizwert und langanhaltende Glut.",
+    subtitle_fr: "Briquettes de lignite classiques pour poêles à combustion continue, rendement calorifique élevé et braises longues.",
+    subtitle_en: "Classic lignite briquettes for continuous-combustion stoves, high calorific output and long-lasting embers.",
+    description_de: `<p class="mb-3"><strong>Sie suchen guten Brennstoff? Genau das machen wir!</strong></p>
+
+<p class="mb-3">Braunkohlebriketts, Palette 900 kg: ein Produkt, das für seine Leistung und Gleichmäßigkeit ausgewählt wurde. Jede Charge wird vor der Verpackung kontrolliert, um konstante Wärme über den ganzen Winter und minimale Rückstände in Ihrem Ofen zu gewährleisten.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Die 5 Vorteile dieses Produkts</h3>
+<ul class="space-y-1 mb-3">
+  <li>Wirklich trockener, sofort einsatzbereiter Brennstoff.</li>
+  <li>Transparente Verpackung: Einzelsack oder komplette Palette</li>
+  <li>Ausgewählte und kontrollierte Rohstoffe</li>
+  <li>Kontrollierte Trocknung für eine saubere Verbrennung</li>
+  <li>Überprüfbare Menge dank Lieferung auf Palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Was bedeutet Leistung?</h3>
+<p class="mb-3">Ein gut getrockneter Brennstoff erzeugt eine Verbrennung mit hoher Wärmeabgabe. Feuchter Brennstoff entzündet sich schlecht, heizt wenig und verrußt den Schornstein: Feuchtigkeit ist der größte Feind. Bei niedrigem Feuchtigkeitsgehalt benötigen Sie etwa 30 % weniger Volumen, produzieren zwei- bis dreimal weniger Asche und Ihr Ofen bleibt länger sauber.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Saubere und überprüfbare Lieferung auf Palette</h3>
+<p class="mb-3">Die Ware wird direkt auf Paletten gelagert, um eine Lieferung in einwandfreiem Zustand zu gewährleisten. Sie wird vor dem Gebäude abgestellt: kein loser Haufen, keine Reinigung nötig und eine bei der Lieferung leicht zu überprüfende Menge.</p>`,
+    description_fr: `<p class="mb-3"><strong>Vous cherchez du bon carburant ? C'est tout ce que nous faisons !</strong></p>
+
+<p class="mb-3">Briquettes de lignite, palette de 900 kg : un produit sélectionné pour ses performances et sa régularité. Chaque lot est contrôlé avant emballage afin de garantir une chaleur constante tout au long de l’hiver et de minimiser les résidus dans votre poêle.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Les 5 avantages de ce produit</h3>
+<ul class="space-y-1 mb-3">
+  <li>Carburant véritablement sec, prêt à l'emploi.</li>
+  <li>Emballage transparent : sac individuel ou palette complète</li>
+  <li>Matières premières sélectionnées et contrôlées</li>
+  <li>Séchage contrôlé pour une combustion propre</li>
+  <li>Quantité vérifiable grâce à la livraison sur palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Que signifie la performance ?</h3>
+<p class="mb-3">Un combustible bien sec produit une combustion à forte chaleur. Un combustible humide s'enflamme mal, chauffe peu et encrasse la cheminée : l'humidité reste le principal ennemi. Avec un faible taux d'humidité, vous utilisez environ 30 % de volume en moins, produisez deux à trois fois moins de cendres et votre poêle reste propre plus longtemps.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Livraison propre et vérifiable sur palette</h3>
+<p class="mb-3">Les marchandises sont stockées directement sur palettes afin de garantir une livraison en parfait état. Elles sont déposées devant le bâtiment : pas de tas en vrac, pas de nettoyage nécessaire et une quantité facile à vérifier à la livraison.</p>`,
+    description_en: `<p class="mb-3"><strong>Looking for good fuel? That's all we do!</strong></p>
+
+<p class="mb-3">Lignite briquettes, 900 kg pallet: a product selected for its performance and consistency. Every batch is checked before packaging to guarantee steady heat throughout the winter and minimal residue in your stove.</p>
+
+<h3 class="font-semibold mb-2 mt-5">The 5 benefits of this product</h3>
+<ul class="space-y-1 mb-3">
+  <li>Genuinely dry fuel, ready to use.</li>
+  <li>Transparent packaging: individual bag or full pallet</li>
+  <li>Selected and controlled raw materials</li>
+  <li>Controlled drying for clean combustion</li>
+  <li>Verifiable quantity thanks to pallet delivery</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">What does performance mean?</h3>
+<p class="mb-3">Well-dried fuel burns with a high heat output. Damp fuel ignites poorly, gives little heat and clogs the chimney: moisture is the main enemy. With a low moisture content you use around 30% less volume, produce two to three times less ash and your stove stays clean for longer.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Clean, verifiable pallet delivery</h3>
+<p class="mb-3">Goods are stored directly on pallets to guarantee delivery in perfect condition. They are placed in front of the building: no loose heap, no cleaning required and a quantity that is easy to check on delivery.</p>`,
+    price_eur: 315.95,
+    image_url: "/51-1.jpg",
+    gallery: ["/51-1.jpg", "/51-1.jpg", "/51-1.jpg", "/51-1.jpg"],
+    is_hot: true,
+    stock: 100,
+    created_at: "2026-11-07T10:09:00Z",
+  },
+  {
+    id: "prod-59",
+    slug: "noyer-anthracite-20-30-palette-500-kg",
+    category_id: "cat-4",
+    name_de: "Anthrazit-Nuss 20/30 · Palette 500 kg",
+    name_fr: "Noyer anthracite 20/30 · Palette de 500 kg",
+    name_en: "Anthracite nuts 20/30 · 500 kg pallet",
+    subtitle_de: "Kalibrierter Anthrazit 20/30 mm, geringe Rauchentwicklung und sehr hohe Energiedichte.",
+    subtitle_fr: "Anthracite calibrée 20/30 mm, faible dégagement de fumée et à très haute densité énergétique.",
+    subtitle_en: "Calibrated anthracite 20/30 mm, low smoke emission and very high energy density.",
+    description_de: `<p class="mb-3"><strong>Sie suchen guten Brennstoff? Genau das machen wir!</strong></p>
+
+<p class="mb-3">Anthrazit-Nuss 20/30 · Palette 500 kg: ein Produkt, das für seine Leistung und Gleichmäßigkeit ausgewählt wurde. Jede Charge wird vor der Verpackung geprüft, um konstante Wärme über den ganzen Winter und minimale Rückstände in Ihrem Ofen zu gewährleisten.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Die 5 Vorteile dieses Produkts</h3>
+<ul class="space-y-1 mb-3">
+  <li>Wirklich trockener, sofort einsatzbereiter Brennstoff.</li>
+  <li>Transparente Verpackung: Einzelsack oder komplette Palette</li>
+  <li>Ausgewählte und kontrollierte Rohstoffe</li>
+  <li>Kontrollierte Trocknung für eine saubere Verbrennung</li>
+  <li>Überprüfbare Menge dank Lieferung auf Palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Was bedeutet Leistung?</h3>
+<p class="mb-3">Ein gut getrockneter Brennstoff erzeugt eine Verbrennung mit hoher Wärmeabgabe. Feuchter Brennstoff entzündet sich schlecht, heizt wenig und verrußt den Schornstein: Feuchtigkeit ist der größte Feind. Bei niedrigem Feuchtigkeitsgehalt benötigen Sie etwa 30 % weniger Volumen, produzieren zwei- bis dreimal weniger Asche und Ihr Ofen bleibt länger sauber.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Saubere und überprüfbare Lieferung auf Palette</h3>
+<p class="mb-3">Die Ware wird direkt auf Paletten gelagert, um eine Lieferung in einwandfreiem Zustand zu gewährleisten. Sie wird vor dem Gebäude abgestellt: kein loser Haufen, keine Reinigung nötig und eine bei der Lieferung leicht zu überprüfende Menge.</p>`,
+    description_fr: `<p class="mb-3"><strong>Vous cherchez du bon carburant ? C'est tout ce que nous faisons !</strong></p>
+
+<p class="mb-3">Noyer anthracite 20/30 · Palette de 500 kg : un produit sélectionné pour ses performances et sa régularité. Chaque lot est inspecté avant emballage afin de garantir une chaleur constante tout au long de l'hiver et de minimiser les résidus dans votre poêle.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Les 5 avantages de ce produit</h3>
+<ul class="space-y-1 mb-3">
+  <li>Carburant véritablement sec, prêt à l'emploi.</li>
+  <li>Emballage transparent : sac individuel ou palette complète</li>
+  <li>Matières premières sélectionnées et contrôlées</li>
+  <li>Séchage contrôlé pour une combustion propre</li>
+  <li>Quantité vérifiable grâce à la livraison sur palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Que signifie la performance ?</h3>
+<p class="mb-3">Un combustible bien sec produit une combustion à forte chaleur. Un combustible humide s'enflamme mal, chauffe peu et encrasse la cheminée : l'humidité reste le principal ennemi. Avec un faible taux d'humidité, vous utilisez environ 30 % de volume en moins, produisez deux à trois fois moins de cendres et votre poêle reste propre plus longtemps.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Livraison propre et vérifiable sur palette</h3>
+<p class="mb-3">Les marchandises sont stockées directement sur palettes afin de garantir une livraison en parfait état. Elles sont déposées devant le bâtiment : pas de tas en vrac, pas de nettoyage nécessaire et une quantité facile à vérifier à la livraison.</p>`,
+    description_en: `<p class="mb-3"><strong>Looking for good fuel? That's all we do!</strong></p>
+
+<p class="mb-3">Anthracite nuts 20/30 · 500 kg pallet: a product selected for its performance and consistency. Every batch is inspected before packaging to guarantee steady heat throughout the winter and minimal residue in your stove.</p>
+
+<h3 class="font-semibold mb-2 mt-5">The 5 benefits of this product</h3>
+<ul class="space-y-1 mb-3">
+  <li>Genuinely dry fuel, ready to use.</li>
+  <li>Transparent packaging: individual bag or full pallet</li>
+  <li>Selected and controlled raw materials</li>
+  <li>Controlled drying for clean combustion</li>
+  <li>Verifiable quantity thanks to pallet delivery</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">What does performance mean?</h3>
+<p class="mb-3">Well-dried fuel burns with a high heat output. Damp fuel ignites poorly, gives little heat and clogs the chimney: moisture is the main enemy. With a low moisture content you use around 30% less volume, produce two to three times less ash and your stove stays clean for longer.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Clean, verifiable pallet delivery</h3>
+<p class="mb-3">Goods are stored directly on pallets to guarantee delivery in perfect condition. They are placed in front of the building: no loose heap, no cleaning required and a quantity that is easy to check on delivery.</p>`,
+    price_eur: 458.52,
+    image_url: "/51-2.jpg",
+    gallery: ["/51-2.jpg", "/51-2.jpg", "/51-2.jpg", "/51-2.jpg"],
+    is_hot: true,
+    stock: 100,
+    created_at: "2026-11-07T10:10:00Z",
+  },
+  {
+    id: "prod-60",
+    slug: "allume-feu-cire-naturelle-carton-288-cubes",
+    category_id: "cat-8",
+    name_de: "Anzündhilfen aus natürlichem Wachs · Karton mit 288 Würfeln",
+    name_fr: "Allume-feu en cire naturelle · Carton de 288 cubes",
+    name_en: "Natural wax firelighters · box of 288 cubes",
+    subtitle_de: "Anzündhilfen aus Holzwolle und natürlichem Wachs, geruchlos und zuverlässig.",
+    subtitle_fr: "Allume-feu en laine de bois et cire naturelle, inodores et fiables.",
+    subtitle_en: "Firelighters made of wood wool and natural wax, odourless and reliable.",
+    description_de: `<p class="mb-3"><strong>Sie suchen guten Brennstoff? Genau das machen wir!</strong></p>
+
+<p class="mb-3">Anzündhilfen aus natürlichem Wachs · Schachtel mit 288 Würfeln: ein Produkt, das wir für seine Effizienz und Gleichmäßigkeit ausgewählt haben. Jede Charge wird vor der Verpackung geprüft, um konstante Wärme zu gewährleisten und die Rückstände in Ihrem Ofen während des gesamten Winters zu minimieren.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Die 5 Vorteile dieses Produkts</h3>
+<ul class="space-y-1 mb-3">
+  <li>Wirklich trockener, sofort einsatzbereiter Brennstoff.</li>
+  <li>Transparente Verpackung: Einzelsack oder komplette Palette</li>
+  <li>Ausgewählte und kontrollierte Rohstoffe</li>
+  <li>Kontrollierte Trocknung für eine saubere Verbrennung</li>
+  <li>Überprüfbare Menge dank Lieferung auf Palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Was bedeutet Leistung?</h3>
+<p class="mb-3">Ein gut getrockneter Brennstoff erzeugt eine Verbrennung mit hoher Wärmeabgabe. Feuchter Brennstoff entzündet sich schlecht, heizt wenig und verrußt den Schornstein: Feuchtigkeit ist der größte Feind. Bei niedrigem Feuchtigkeitsgehalt benötigen Sie etwa 30 % weniger Volumen, produzieren zwei- bis dreimal weniger Asche und Ihr Ofen bleibt länger sauber.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Saubere und überprüfbare Lieferung auf Palette</h3>
+<p class="mb-3">Die Ware wird direkt auf Paletten gelagert, um eine Lieferung in einwandfreiem Zustand zu gewährleisten. Sie wird vor dem Gebäude abgestellt: kein loser Haufen, keine Reinigung nötig und eine bei der Lieferung leicht zu überprüfende Menge.</p>`,
+    description_fr: `<p class="mb-3"><strong>Vous cherchez du bon carburant ? C'est tout ce que nous faisons !</strong></p>
+
+<p class="mb-3">Allume-feu en cire naturelle · Boîte de 288 cubes : un produit que nous avons sélectionné pour son efficacité et sa régularité. Chaque lot est inspecté avant l’emballage afin de garantir une chaleur constante et de minimiser les résidus dans votre poêle tout au long de l’hiver.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Les 5 avantages de ce produit</h3>
+<ul class="space-y-1 mb-3">
+  <li>Carburant véritablement sec, prêt à l'emploi.</li>
+  <li>Emballage transparent : sac individuel ou palette complète</li>
+  <li>Matières premières sélectionnées et contrôlées</li>
+  <li>Séchage contrôlé pour une combustion propre</li>
+  <li>Quantité vérifiable grâce à la livraison sur palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Que signifie la performance ?</h3>
+<p class="mb-3">Un combustible bien sec produit une combustion à forte chaleur. Un combustible humide s'enflamme mal, chauffe peu et encrasse la cheminée : l'humidité reste le principal ennemi. Avec un faible taux d'humidité, vous utilisez environ 30 % de volume en moins, produisez deux à trois fois moins de cendres et votre poêle reste propre plus longtemps.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Livraison propre et vérifiable sur palette</h3>
+<p class="mb-3">Les marchandises sont stockées directement sur palettes afin de garantir une livraison en parfait état. Elles sont déposées devant le bâtiment : pas de tas en vrac, pas de nettoyage nécessaire et une quantité facile à vérifier à la livraison.</p>`,
+    description_en: `<p class="mb-3"><strong>Looking for good fuel? That's all we do!</strong></p>
+
+<p class="mb-3">Natural wax firelighters · box of 288 cubes: a product we have selected for its efficiency and consistency. Every batch is inspected before packaging to guarantee steady heat and minimise residue in your stove throughout the winter.</p>
+
+<h3 class="font-semibold mb-2 mt-5">The 5 benefits of this product</h3>
+<ul class="space-y-1 mb-3">
+  <li>Genuinely dry fuel, ready to use.</li>
+  <li>Transparent packaging: individual bag or full pallet</li>
+  <li>Selected and controlled raw materials</li>
+  <li>Controlled drying for clean combustion</li>
+  <li>Verifiable quantity thanks to pallet delivery</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">What does performance mean?</h3>
+<p class="mb-3">Well-dried fuel burns with a high heat output. Damp fuel ignites poorly, gives little heat and clogs the chimney: moisture is the main enemy. With a low moisture content you use around 30% less volume, produce two to three times less ash and your stove stays clean for longer.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Clean, verifiable pallet delivery</h3>
+<p class="mb-3">Goods are stored directly on pallets to guarantee delivery in perfect condition. They are placed in front of the building: no loose heap, no cleaning required and a quantity that is easy to check on delivery.</p>`,
+    price_eur: 25.95,
+    image_url: "/52-1.jpg",
+    gallery: ["/52-1.jpg", "/52-1.jpg", "/52-1.jpg", "/52-1.jpg"],
+    is_hot: true,
+    stock: 100,
+    created_at: "2026-11-07T10:11:00Z",
+  },
+  {
+    id: "prod-61",
+    slug: "petit-bois-allumage-sec-sac-20-kg",
+    category_id: "cat-8",
+    name_de: "Trockenes Anmachholz · 20-kg-Sack",
+    name_fr: "Petit bois d'allumage sec · sac de 20 kg",
+    name_en: "Dry kindling wood · 20 kg bag",
+    subtitle_de: "Hochwertige Nadelholzscheite zum Anzünden, ofengetrocknet und sauber.",
+    subtitle_fr: "Bûches de bois résineux de qualité supérieure pour allume-feu, séchées au four et propres.",
+    subtitle_en: "Premium softwood logs for firelighters, oven-dried and clean.",
+    description_de: `<p class="mb-3"><strong>Sie suchen guten Brennstoff? Genau das machen wir!</strong></p>
+
+<p class="mb-3">Trockenes Anmachholz, 20-kg-Sack: ein Produkt, das für seine Leistung und Gleichmäßigkeit ausgewählt wurde. Jede Charge wird vor der Verpackung kontrolliert, um konstante Wärme über den ganzen Winter und minimale Rückstände in Ihrem Ofen zu gewährleisten.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Die 5 Vorteile dieses Produkts</h3>
+<ul class="space-y-1 mb-3">
+  <li>Wirklich trockener, sofort einsatzbereiter Brennstoff.</li>
+  <li>Transparente Verpackung: Einzelsack oder komplette Palette</li>
+  <li>Ausgewählte und kontrollierte Rohstoffe</li>
+  <li>Kontrollierte Trocknung für eine saubere Verbrennung</li>
+  <li>Überprüfbare Menge dank Lieferung auf Palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Was bedeutet Leistung?</h3>
+<p class="mb-3">Ein gut getrockneter Brennstoff erzeugt eine Verbrennung mit hoher Wärmeabgabe. Feuchter Brennstoff entzündet sich schlecht, heizt wenig und verrußt den Schornstein: Feuchtigkeit ist der größte Feind. Bei niedrigem Feuchtigkeitsgehalt benötigen Sie etwa 30 % weniger Volumen, produzieren zwei- bis dreimal weniger Asche und Ihr Ofen bleibt länger sauber.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Saubere und überprüfbare Lieferung auf Palette</h3>
+<p class="mb-3">Die Ware wird direkt auf Paletten gelagert, um eine Lieferung in einwandfreiem Zustand zu gewährleisten. Sie wird vor dem Gebäude abgestellt: kein loser Haufen, keine Reinigung nötig und eine bei der Lieferung leicht zu überprüfende Menge.</p>`,
+    description_fr: `<p class="mb-3"><strong>Vous cherchez du bon carburant ? C'est tout ce que nous faisons !</strong></p>
+
+<p class="mb-3">Petit bois d'allumage sec, sac de 20 kg : un produit sélectionné pour ses performances et sa régularité. Chaque lot est contrôlé avant emballage afin de garantir une chaleur constante tout au long de l'hiver et de minimiser les résidus dans votre poêle.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Les 5 avantages de ce produit</h3>
+<ul class="space-y-1 mb-3">
+  <li>Carburant véritablement sec, prêt à l'emploi.</li>
+  <li>Emballage transparent : sac individuel ou palette complète</li>
+  <li>Matières premières sélectionnées et contrôlées</li>
+  <li>Séchage contrôlé pour une combustion propre</li>
+  <li>Quantité vérifiable grâce à la livraison sur palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Que signifie la performance ?</h3>
+<p class="mb-3">Un combustible bien sec produit une combustion à forte chaleur. Un combustible humide s'enflamme mal, chauffe peu et encrasse la cheminée : l'humidité reste le principal ennemi. Avec un faible taux d'humidité, vous utilisez environ 30 % de volume en moins, produisez deux à trois fois moins de cendres et votre poêle reste propre plus longtemps.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Livraison propre et vérifiable sur palette</h3>
+<p class="mb-3">Les marchandises sont stockées directement sur palettes afin de garantir une livraison en parfait état. Elles sont déposées devant le bâtiment : pas de tas en vrac, pas de nettoyage nécessaire et une quantité facile à vérifier à la livraison.</p>`,
+    description_en: `<p class="mb-3"><strong>Looking for good fuel? That's all we do!</strong></p>
+
+<p class="mb-3">Dry kindling wood, 20 kg bag: a product selected for its performance and consistency. Every batch is checked before packaging to guarantee steady heat throughout the winter and minimal residue in your stove.</p>
+
+<h3 class="font-semibold mb-2 mt-5">The 5 benefits of this product</h3>
+<ul class="space-y-1 mb-3">
+  <li>Genuinely dry fuel, ready to use.</li>
+  <li>Transparent packaging: individual bag or full pallet</li>
+  <li>Selected and controlled raw materials</li>
+  <li>Controlled drying for clean combustion</li>
+  <li>Verifiable quantity thanks to pallet delivery</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">What does performance mean?</h3>
+<p class="mb-3">Well-dried fuel burns with a high heat output. Damp fuel ignites poorly, gives little heat and clogs the chimney: moisture is the main enemy. With a low moisture content you use around 30% less volume, produce two to three times less ash and your stove stays clean for longer.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Clean, verifiable pallet delivery</h3>
+<p class="mb-3">Goods are stored directly on pallets to guarantee delivery in perfect condition. They are placed in front of the building: no loose heap, no cleaning required and a quantity that is easy to check on delivery.</p>`,
+    price_eur: 15.99,
+    image_url: "/52-2.jpg",
+    gallery: ["/52-2.jpg", "/52-2.jpg", "/52-2.jpg", "/52-2.jpg"],
+    is_hot: true,
+    stock: 100,
+    created_at: "2026-11-07T10:12:00Z",
+  },
+  {
+    id: "prod-62",
+    slug: "poele-a-bois-wamsler-cube-acier-noir-6-kw",
+    category_id: "cat-9",
+    name_de: "Wamsler Cube Holzofen aus Stahl, schwarz, 6 kW",
+    name_fr: "Poêle à bois Wamsler Cube en acier, noir, 6 kW",
+    name_en: "Wamsler Cube steel wood stove, black, 6 kW",
+    subtitle_de: "Kompakter würfelförmiger Holzofen aus schwarzem Stahl mit einer Nennwärmeleistung von 6 kW, großer Glasscheibe und sauberer Verbrennung.",
+    subtitle_fr: "Poêle à bois compact de forme cubique en acier noir, d'une puissance calorifique nominale de 6 kW, doté d'une grande vitre et d'une combustion propre.",
+    subtitle_en: "Compact cube-shaped wood stove in black steel, with a nominal heat output of 6 kW, a large glass window and clean combustion.",
+    description_de: `<p class="mb-3"><strong>Sie suchen guten Brennstoff? Genau das machen wir!</strong></p>
+
+<p class="mb-3">Wamsler Cube Holzofen aus Edelstahl, schwarz, 6 kW: ein Produkt, das wir für seine Leistung und Zuverlässigkeit ausgewählt haben. Jede Charge wird vor der Verpackung geprüft, um konstante Wärme über den ganzen Winter zu gewährleisten und die Ansammlung von Rückständen im Ofen zu begrenzen.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Die 5 Vorteile dieses Produkts</h3>
+<ul class="space-y-1 mb-3">
+  <li>Wirklich trockener, sofort einsatzbereiter Brennstoff.</li>
+  <li>Transparente Verpackung: Einzelsack oder komplette Palette</li>
+  <li>Ausgewählte und kontrollierte Rohstoffe</li>
+  <li>Kontrollierte Trocknung für eine saubere Verbrennung</li>
+  <li>Überprüfbare Menge dank Lieferung auf Palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Was bedeutet Leistung?</h3>
+<p class="mb-3">Ein gut getrockneter Brennstoff erzeugt eine Verbrennung mit hoher Wärmeabgabe. Feuchter Brennstoff entzündet sich schlecht, heizt wenig und verrußt den Schornstein: Feuchtigkeit ist der größte Feind. Bei niedrigem Feuchtigkeitsgehalt benötigen Sie etwa 30 % weniger Volumen, produzieren zwei- bis dreimal weniger Asche und Ihr Ofen bleibt länger sauber.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Saubere und überprüfbare Lieferung auf Palette</h3>
+<p class="mb-3">Die Ware wird direkt auf Paletten gelagert, um eine Lieferung in einwandfreiem Zustand zu gewährleisten. Sie wird vor dem Gebäude abgestellt: kein loser Haufen, keine Reinigung nötig und eine bei der Lieferung leicht zu überprüfende Menge.</p>`,
+    description_fr: `<p class="mb-3"><strong>Vous cherchez du bon carburant ? C'est tout ce que nous faisons !</strong></p>
+
+<p class="mb-3">Poêle à bois Wamsler Cube en acier inoxydable, noir, 6 kW : un produit que nous avons sélectionné pour ses performances et sa fiabilité. Chaque lot est inspecté avant l’emballage afin de garantir une chaleur constante tout au long de l’hiver et de limiter l’accumulation de résidus dans le poêle.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Les 5 avantages de ce produit</h3>
+<ul class="space-y-1 mb-3">
+  <li>Carburant véritablement sec, prêt à l'emploi.</li>
+  <li>Emballage transparent : sac individuel ou palette complète</li>
+  <li>Matières premières sélectionnées et contrôlées</li>
+  <li>Séchage contrôlé pour une combustion propre</li>
+  <li>Quantité vérifiable grâce à la livraison sur palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Que signifie la performance ?</h3>
+<p class="mb-3">Un combustible bien sec produit une combustion à forte chaleur. Un combustible humide s'enflamme mal, chauffe peu et encrasse la cheminée : l'humidité reste le principal ennemi. Avec un faible taux d'humidité, vous utilisez environ 30 % de volume en moins, produisez deux à trois fois moins de cendres et votre poêle reste propre plus longtemps.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Livraison propre et vérifiable sur palette</h3>
+<p class="mb-3">Les marchandises sont stockées directement sur palettes afin de garantir une livraison en parfait état. Elles sont déposées devant le bâtiment : pas de tas en vrac, pas de nettoyage nécessaire et une quantité facile à vérifier à la livraison.</p>`,
+    description_en: `<p class="mb-3"><strong>Looking for good fuel? That's all we do!</strong></p>
+
+<p class="mb-3">Wamsler Cube stainless steel wood stove, black, 6 kW: a product we have selected for its performance and reliability. Every batch is inspected before packaging to guarantee steady heat throughout the winter and limit the build-up of residue in the stove.</p>
+
+<h3 class="font-semibold mb-2 mt-5">The 5 benefits of this product</h3>
+<ul class="space-y-1 mb-3">
+  <li>Genuinely dry fuel, ready to use.</li>
+  <li>Transparent packaging: individual bag or full pallet</li>
+  <li>Selected and controlled raw materials</li>
+  <li>Controlled drying for clean combustion</li>
+  <li>Verifiable quantity thanks to pallet delivery</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">What does performance mean?</h3>
+<p class="mb-3">Well-dried fuel burns with a high heat output. Damp fuel ignites poorly, gives little heat and clogs the chimney: moisture is the main enemy. With a low moisture content you use around 30% less volume, produce two to three times less ash and your stove stays clean for longer.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Clean, verifiable pallet delivery</h3>
+<p class="mb-3">Goods are stored directly on pallets to guarantee delivery in perfect condition. They are placed in front of the building: no loose heap, no cleaning required and a quantity that is easy to check on delivery.</p>`,
+    price_eur: 420.96,
+    image_url: "/53-1.jpg",
+    gallery: ["/53-1.jpg", "/53-1.jpg", "/53-1.jpg", "/53-1.jpg"],
+    is_hot: true,
+    stock: 100,
+    created_at: "2026-11-07T10:13:00Z",
+  },
+  {
+    id: "prod-63",
+    slug: "poele-a-bois-sannover-dita-13-1-kw-buches-63-cm",
+    category_id: "cat-9",
+    name_de: "Sannover Dita Holzofen 13,1 kW · Scheite bis 63 cm",
+    name_fr: "Poêle à bois Sannover Dita 13,1 kW · bûches de 63 cm",
+    name_en: "Sannover Dita wood stove 13.1 kW · 63 cm logs",
+    subtitle_de: "Hochleistungs-Holzofen mit 9,8 kW Nennleistung und bis zu 13,1 kW, Energieeffizienzklasse A+, Scheite bis 63 cm.",
+    subtitle_fr: "Poêle à bois haute performance avec une puissance nominale de 9,8 kW et jusqu'à 13,1 kW, classe d'efficacité énergétique A+, bûches jusqu'à 63 cm.",
+    subtitle_en: "High-performance wood stove with a nominal output of 9.8 kW and up to 13.1 kW, energy efficiency class A+, logs up to 63 cm.",
+    description_de: `<p class="mb-3"><strong>Sie suchen guten Brennstoff? Genau das machen wir!</strong></p>
+
+<p class="mb-3">Sannover Dita Holzofen 13,1 kW · Scheite 63 cm: ein Produkt, das für seine Leistung und Gleichmäßigkeit ausgewählt wurde. Jede Charge wird vor der Verpackung kontrolliert, um konstante Wärme über den ganzen Winter und minimale Rückstände im Ofen zu gewährleisten.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Die 5 Vorteile dieses Produkts</h3>
+<ul class="space-y-1 mb-3">
+  <li>Wirklich trockener, sofort einsatzbereiter Brennstoff.</li>
+  <li>Transparente Verpackung: Einzelsack oder komplette Palette</li>
+  <li>Ausgewählte und kontrollierte Rohstoffe</li>
+  <li>Kontrollierte Trocknung für eine saubere Verbrennung</li>
+  <li>Überprüfbare Menge dank Lieferung auf Palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Was bedeutet Leistung?</h3>
+<p class="mb-3">Ein gut getrockneter Brennstoff erzeugt eine Verbrennung mit hoher Wärmeabgabe. Feuchter Brennstoff entzündet sich schlecht, heizt wenig und verrußt den Schornstein: Feuchtigkeit ist der größte Feind. Bei niedrigem Feuchtigkeitsgehalt benötigen Sie etwa 30 % weniger Volumen, produzieren zwei- bis dreimal weniger Asche und Ihr Ofen bleibt länger sauber.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Saubere und überprüfbare Lieferung auf Palette</h3>
+<p class="mb-3">Die Ware wird direkt auf Paletten gelagert, um eine Lieferung in einwandfreiem Zustand zu gewährleisten. Sie wird vor dem Gebäude abgestellt: kein loser Haufen, keine Reinigung nötig und eine bei der Lieferung leicht zu überprüfende Menge.</p>`,
+    description_fr: `<p class="mb-3"><strong>Vous cherchez du bon carburant ? C'est tout ce que nous faisons !</strong></p>
+
+<p class="mb-3">Poêle à bois Sannover Dita 13,1 kW · Bûches de 63 cm : un produit sélectionné pour ses performances et sa régularité. Chaque lot est contrôlé avant emballage afin de garantir une chaleur constante tout au long de l’hiver et de minimiser les résidus dans le poêle.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Les 5 avantages de ce produit</h3>
+<ul class="space-y-1 mb-3">
+  <li>Carburant véritablement sec, prêt à l'emploi.</li>
+  <li>Emballage transparent : sac individuel ou palette complète</li>
+  <li>Matières premières sélectionnées et contrôlées</li>
+  <li>Séchage contrôlé pour une combustion propre</li>
+  <li>Quantité vérifiable grâce à la livraison sur palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Que signifie la performance ?</h3>
+<p class="mb-3">Un combustible bien sec produit une combustion à forte chaleur. Un combustible humide s'enflamme mal, chauffe peu et encrasse la cheminée : l'humidité reste le principal ennemi. Avec un faible taux d'humidité, vous utilisez environ 30 % de volume en moins, produisez deux à trois fois moins de cendres et votre poêle reste propre plus longtemps.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Livraison propre et vérifiable sur palette</h3>
+<p class="mb-3">Les marchandises sont stockées directement sur palettes afin de garantir une livraison en parfait état. Elles sont déposées devant le bâtiment : pas de tas en vrac, pas de nettoyage nécessaire et une quantité facile à vérifier à la livraison.</p>`,
+    description_en: `<p class="mb-3"><strong>Looking for good fuel? That's all we do!</strong></p>
+
+<p class="mb-3">Sannover Dita wood stove 13.1 kW · 63 cm logs: a product selected for its performance and consistency. Every batch is checked before packaging to guarantee steady heat throughout the winter and minimal residue in the stove.</p>
+
+<h3 class="font-semibold mb-2 mt-5">The 5 benefits of this product</h3>
+<ul class="space-y-1 mb-3">
+  <li>Genuinely dry fuel, ready to use.</li>
+  <li>Transparent packaging: individual bag or full pallet</li>
+  <li>Selected and controlled raw materials</li>
+  <li>Controlled drying for clean combustion</li>
+  <li>Verifiable quantity thanks to pallet delivery</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">What does performance mean?</h3>
+<p class="mb-3">Well-dried fuel burns with a high heat output. Damp fuel ignites poorly, gives little heat and clogs the chimney: moisture is the main enemy. With a low moisture content you use around 30% less volume, produce two to three times less ash and your stove stays clean for longer.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Clean, verifiable pallet delivery</h3>
+<p class="mb-3">Goods are stored directly on pallets to guarantee delivery in perfect condition. They are placed in front of the building: no loose heap, no cleaning required and a quantity that is easy to check on delivery.</p>`,
+    price_eur: 469.99,
+    image_url: "/53-2.jpg",
+    gallery: ["/53-2.jpg", "/53-2.jpg", "/53-2.jpg", "/53-2.jpg"],
+    is_hot: true,
+    stock: 100,
+    created_at: "2026-11-07T10:14:00Z",
+  },
+  {
+    id: "prod-64",
+    slug: "poele-a-bois-mahan-noir-mat-7-kw",
+    category_id: "cat-9",
+    name_de: "Mahan Holzofen, mattschwarz, 7 kW",
+    name_fr: "Poêle à bois Mahan, noir mat, 7 kW",
+    name_en: "Mahan wood stove, matte black, 7 kW",
+    subtitle_de: "Kompakter Holzofen in Mattschwarz mit einer Nennwärmeleistung von 7 kW und großer Sichtscheibe.",
+    subtitle_fr: "Poêle à bois compact noir mat avec une puissance calorifique nominale de 7 kW et une grande vitre d'observation.",
+    subtitle_en: "Compact matte black wood stove with a nominal heat output of 7 kW and a large viewing window.",
+    description_de: `<p class="mb-3"><strong>Sie suchen guten Brennstoff? Genau das machen wir!</strong></p>
+
+<p class="mb-3">Mahan Black Matt Holzofen 7 kW: ein Produkt, das wir für seine Leistung und Zuverlässigkeit ausgewählt haben. Jede Charge wird vor der Verpackung geprüft, um konstante Wärme über den ganzen Winter zu gewährleisten und die Ansammlung von Rückständen im Ofen zu minimieren.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Die 5 Vorteile dieses Produkts</h3>
+<ul class="space-y-1 mb-3">
+  <li>Wirklich trockener, sofort einsatzbereiter Brennstoff.</li>
+  <li>Transparente Verpackung: Einzelsack oder komplette Palette</li>
+  <li>Ausgewählte und kontrollierte Rohstoffe</li>
+  <li>Kontrollierte Trocknung für eine saubere Verbrennung</li>
+  <li>Überprüfbare Menge dank Lieferung auf Palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Was bedeutet Leistung?</h3>
+<p class="mb-3">Ein gut getrockneter Brennstoff erzeugt eine Verbrennung mit hoher Wärmeabgabe. Feuchter Brennstoff entzündet sich schlecht, heizt wenig und verrußt den Schornstein: Feuchtigkeit ist der größte Feind. Bei niedrigem Feuchtigkeitsgehalt benötigen Sie etwa 30 % weniger Volumen, produzieren zwei- bis dreimal weniger Asche und Ihr Ofen bleibt länger sauber.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Saubere und überprüfbare Lieferung auf Palette</h3>
+<p class="mb-3">Die Ware wird direkt auf Paletten gelagert, um eine Lieferung in einwandfreiem Zustand zu gewährleisten. Sie wird vor dem Gebäude abgestellt: kein loser Haufen, keine Reinigung nötig und eine bei der Lieferung leicht zu überprüfende Menge.</p>`,
+    description_fr: `<p class="mb-3"><strong>Vous cherchez du bon carburant ? C'est tout ce que nous faisons !</strong></p>
+
+<p class="mb-3">Poêle à bois Mahan Black Matt 7 kW : un produit que nous avons sélectionné pour ses performances et sa fiabilité. Chaque lot est inspecté avant l’emballage afin de garantir une chaleur constante tout au long de l’hiver et de minimiser l’accumulation de résidus dans le poêle.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Les 5 avantages de ce produit</h3>
+<ul class="space-y-1 mb-3">
+  <li>Carburant véritablement sec, prêt à l'emploi.</li>
+  <li>Emballage transparent : sac individuel ou palette complète</li>
+  <li>Matières premières sélectionnées et contrôlées</li>
+  <li>Séchage contrôlé pour une combustion propre</li>
+  <li>Quantité vérifiable grâce à la livraison sur palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Que signifie la performance ?</h3>
+<p class="mb-3">Un combustible bien sec produit une combustion à forte chaleur. Un combustible humide s'enflamme mal, chauffe peu et encrasse la cheminée : l'humidité reste le principal ennemi. Avec un faible taux d'humidité, vous utilisez environ 30 % de volume en moins, produisez deux à trois fois moins de cendres et votre poêle reste propre plus longtemps.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Livraison propre et vérifiable sur palette</h3>
+<p class="mb-3">Les marchandises sont stockées directement sur palettes afin de garantir une livraison en parfait état. Elles sont déposées devant le bâtiment : pas de tas en vrac, pas de nettoyage nécessaire et une quantité facile à vérifier à la livraison.</p>`,
+    description_en: `<p class="mb-3"><strong>Looking for good fuel? That's all we do!</strong></p>
+
+<p class="mb-3">Mahan Black Matt wood stove 7 kW: a product we have selected for its performance and reliability. Every batch is inspected before packaging to guarantee steady heat throughout the winter and minimise the build-up of residue in the stove.</p>
+
+<h3 class="font-semibold mb-2 mt-5">The 5 benefits of this product</h3>
+<ul class="space-y-1 mb-3">
+  <li>Genuinely dry fuel, ready to use.</li>
+  <li>Transparent packaging: individual bag or full pallet</li>
+  <li>Selected and controlled raw materials</li>
+  <li>Controlled drying for clean combustion</li>
+  <li>Verifiable quantity thanks to pallet delivery</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">What does performance mean?</h3>
+<p class="mb-3">Well-dried fuel burns with a high heat output. Damp fuel ignites poorly, gives little heat and clogs the chimney: moisture is the main enemy. With a low moisture content you use around 30% less volume, produce two to three times less ash and your stove stays clean for longer.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Clean, verifiable pallet delivery</h3>
+<p class="mb-3">Goods are stored directly on pallets to guarantee delivery in perfect condition. They are placed in front of the building: no loose heap, no cleaning required and a quantity that is easy to check on delivery.</p>`,
+    price_eur: 312.99,
+    image_url: "/53-3.jpg",
+    gallery: ["/53-3.jpg", "/53-3.jpg", "/53-3.jpg", "/53-3.jpg"],
+    is_hot: true,
+    stock: 100,
+    created_at: "2026-11-07T10:15:00Z",
+  },
+  {
+    id: "prod-65",
+    slug: "poele-a-bois-hanseatic-santos-6-kw-combustion-intermittente",
+    category_id: "cat-9",
+    name_de: "Hanseatic Santos Holzofen 6 kW · Zeitbrandfeuerung",
+    name_fr: "Poêle à bois Hanseatic Santos 6 kW · Combustion intermittente",
+    name_en: "Hanseatic Santos wood stove 6 kW · intermittent combustion",
+    subtitle_de: "Exklusiver Holzofen mit Zeitbrandfeuerung und einer Nennwärmeleistung von 6 kW, Holz- und Heizfach, wiegt nur 65 kg – Lieferung bis ins Wohnzimmer.",
+    subtitle_fr: "Poêle à bois exclusif à combustion lente d'une puissance calorifique nominale de 6 kW, compartiment à bois et à chauffage, ne pèse que 65 kg – livraison dans votre salon.",
+    subtitle_en: "Exclusive slow-combustion wood stove with a nominal heat output of 6 kW, wood and heating compartment, weighs only 65 kg – delivered into your living room.",
+    description_de: `<p class="mb-3"><strong>Sie suchen guten Brennstoff? Genau das machen wir!</strong></p>
+
+<p class="mb-3">Hanseatic Santos Holzofen 6 kW · Zeitbrandfeuerung: ein Produkt, das wir für seine Leistung und Beständigkeit ausgewählt haben. Jede Charge wird vor der Verpackung geprüft, um konstante Wärme über den ganzen Winter zu gewährleisten und die Rückstände im Ofen zu minimieren.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Die 5 Vorteile dieses Produkts</h3>
+<ul class="space-y-1 mb-3">
+  <li>Wirklich trockener, sofort einsatzbereiter Brennstoff.</li>
+  <li>Transparente Verpackung: Einzelsack oder komplette Palette</li>
+  <li>Ausgewählte und kontrollierte Rohstoffe</li>
+  <li>Kontrollierte Trocknung für eine saubere Verbrennung</li>
+  <li>Überprüfbare Menge dank Lieferung auf Palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Was bedeutet Leistung?</h3>
+<p class="mb-3">Ein gut getrockneter Brennstoff erzeugt eine Verbrennung mit hoher Wärmeabgabe. Feuchter Brennstoff entzündet sich schlecht, heizt wenig und verrußt den Schornstein: Feuchtigkeit ist der größte Feind. Bei niedrigem Feuchtigkeitsgehalt benötigen Sie etwa 30 % weniger Volumen, produzieren zwei- bis dreimal weniger Asche und Ihr Ofen bleibt länger sauber.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Saubere und überprüfbare Lieferung auf Palette</h3>
+<p class="mb-3">Die Ware wird direkt auf Paletten gelagert, um eine Lieferung in einwandfreiem Zustand zu gewährleisten. Sie wird vor dem Gebäude abgestellt: kein loser Haufen, keine Reinigung nötig und eine bei der Lieferung leicht zu überprüfende Menge.</p>`,
+    description_fr: `<p class="mb-3"><strong>Vous cherchez du bon carburant ? C'est tout ce que nous faisons !</strong></p>
+
+<p class="mb-3">Poêle à bois Hanseatic Santos 6 kW · Combustion intermittente : un produit que nous avons sélectionné pour ses performances et sa constance. Chaque lot est inspecté avant l’emballage afin de garantir une chaleur constante tout au long de l’hiver et de minimiser les résidus dans le poêle.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Les 5 avantages de ce produit</h3>
+<ul class="space-y-1 mb-3">
+  <li>Carburant véritablement sec, prêt à l'emploi.</li>
+  <li>Emballage transparent : sac individuel ou palette complète</li>
+  <li>Matières premières sélectionnées et contrôlées</li>
+  <li>Séchage contrôlé pour une combustion propre</li>
+  <li>Quantité vérifiable grâce à la livraison sur palette</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">Que signifie la performance ?</h3>
+<p class="mb-3">Un combustible bien sec produit une combustion à forte chaleur. Un combustible humide s'enflamme mal, chauffe peu et encrasse la cheminée : l'humidité reste le principal ennemi. Avec un faible taux d'humidité, vous utilisez environ 30 % de volume en moins, produisez deux à trois fois moins de cendres et votre poêle reste propre plus longtemps.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Livraison propre et vérifiable sur palette</h3>
+<p class="mb-3">Les marchandises sont stockées directement sur palettes afin de garantir une livraison en parfait état. Elles sont déposées devant le bâtiment : pas de tas en vrac, pas de nettoyage nécessaire et une quantité facile à vérifier à la livraison.</p>`,
+    description_en: `<p class="mb-3"><strong>Looking for good fuel? That's all we do!</strong></p>
+
+<p class="mb-3">Hanseatic Santos wood stove 6 kW · intermittent combustion: a product we have selected for its performance and consistency. Every batch is inspected before packaging to guarantee steady heat throughout the winter and minimise residue in the stove.</p>
+
+<h3 class="font-semibold mb-2 mt-5">The 5 benefits of this product</h3>
+<ul class="space-y-1 mb-3">
+  <li>Genuinely dry fuel, ready to use.</li>
+  <li>Transparent packaging: individual bag or full pallet</li>
+  <li>Selected and controlled raw materials</li>
+  <li>Controlled drying for clean combustion</li>
+  <li>Verifiable quantity thanks to pallet delivery</li>
+</ul>
+
+<h3 class="font-semibold mb-2 mt-5">What does performance mean?</h3>
+<p class="mb-3">Well-dried fuel burns with a high heat output. Damp fuel ignites poorly, gives little heat and clogs the chimney: moisture is the main enemy. With a low moisture content you use around 30% less volume, produce two to three times less ash and your stove stays clean for longer.</p>
+
+<h3 class="font-semibold mb-2 mt-5">Clean, verifiable pallet delivery</h3>
+<p class="mb-3">Goods are stored directly on pallets to guarantee delivery in perfect condition. They are placed in front of the building: no loose heap, no cleaning required and a quantity that is easy to check on delivery.</p>`,
+    price_eur: 302.95,
+    image_url: "/53-4.jpg",
+    gallery: ["/53-4.jpg", "/53-4.jpg", "/53-4.jpg", "/53-4.jpg"],
+    is_hot: true,
+    stock: 100,
+    created_at: "2026-11-07T10:16:00Z",
   },
 ]
 

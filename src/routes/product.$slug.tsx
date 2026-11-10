@@ -8,8 +8,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useCart } from "@/lib/cart";
 import { PageHeader } from "@/components/site/PageHeader";
-import { useLang, pickName, pickDesc } from "@/lib/i18n";
-import { getProductBySlug, getSimilarProducts, getNavProducts, categories as allCategories } from "@/lib/data";
+import { useLang, pickName, pickDesc, pickSubtitle } from "@/lib/i18n";
+import { getProductBySlug, getSimilarProducts, getNavProducts, productHasWarranty, categories as allCategories } from "@/lib/data";
 import { toast } from "sonner";
 import {
   ChevronUp,
@@ -105,6 +105,7 @@ function ProductPage() {
 
   const category = product.category_id ? allCategories.find((c) => c.id === product.category_id) ?? null : null;
   const name = pickName(product, lang);
+  const subtitle = pickSubtitle(product, lang);
   const desc = pickDesc(product, lang);
   const gallery = product.gallery ?? [];
   const images = gallery.length ? gallery : product.image_url ? [product.image_url] : [];
@@ -119,7 +120,7 @@ function ProductPage() {
     { icon: Shield, text: t("securePaymentShort") },
     { icon: RefreshCw, text: t("returns30") },
     { icon: Clock, text: t("deliveryTime") },
-    { icon: Award, text: t("warranty3") },
+    ...(productHasWarranty(product) ? [{ icon: Award, text: t("warranty3") }] : []),
   ] as const;
 
   const handleReviewSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -311,6 +312,10 @@ function ProductPage() {
             </div>
 
             <h1 className="text-3xl lg:text-4xl font-bold text-foreground leading-tight">{name}</h1>
+
+            {subtitle && (
+              <p className="mt-2 text-base text-muted-foreground">{subtitle}</p>
+            )}
 
             <div className="mt-4 text-3xl lg:text-4xl font-bold text-accent">
               {Number(product.price_eur).toFixed(2).replace(".", ",")} €

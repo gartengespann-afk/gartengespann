@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Header } from "@/components/site/Header";
+import { Hero } from "@/components/site/Hero";
 import { Footer } from "@/components/site/Footer";
 import { ProductCard } from "@/components/site/ProductCard";
 import { Testimonials } from "@/components/site/Testimonials";
@@ -34,29 +35,7 @@ function Index() {
       <Header />
 
       {/* Hero */}
-      <section className="bg-gradient-to-br from-primary to-primary/80 text-primary-foreground">
-        <div className="container mx-auto grid md:grid-cols-2 gap-6 md:gap-8 items-center px-4 py-10 md:py-16">
-          <div className="order-2 md:order-1">
-            <div className="text-xs md:text-sm uppercase tracking-widest text-accent font-semibold mb-2 md:mb-3">
-              {t("heroKicker")}
-            </div>
-            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold leading-tight">{t("heroTitle")}</h1>
-            <p className="mt-3 md:mt-4 text-base md:text-lg opacity-80">{t("heroSubtitle")}</p>
-            <Link to="/shop">
-              <Button size="lg" className="mt-4 md:mt-6 bg-accent text-accent-foreground hover:bg-accent/90 w-full sm:w-auto">
-                {t("shopNow")} →
-              </Button>
-            </Link>
-          </div>
-          <div className="order-1 md:order-2 aspect-[4/3] md:aspect-square rounded-lg overflow-hidden bg-white/10">
-            <img
-              src="/trailer.png"
-              alt={t("heroKicker")}
-              className="h-full w-full object-cover"
-            />
-          </div>
-        </div>
-      </section>
+      <Hero />
 
       {/* Advantages */}
       <section className="container mx-auto px-4 py-10 md:py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">

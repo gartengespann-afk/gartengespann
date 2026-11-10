@@ -62,7 +62,7 @@ function ProductError() {
 
 export const Route = createFileRoute("/product/$slug")({
   component: ProductPage,
-  notFoundComponent: ProductNotFound,
+  notFoundComponent: () => <ProductNotFound />,
   errorComponent: ProductError,
 });
 

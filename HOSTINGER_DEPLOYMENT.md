@@ -1,6 +1,6 @@
 # Déploiement sur Hostinger
 
-Ce projet peut conserver TanStack Start comme application Node.js et utiliser l'API PHP avec MySQL. Le build normal utilise le preset Node hors de Lovable ; le wrapper Lovable conserve son preset Cloudflare dans son environnement.
+Ce projet peut conserver TanStack Start comme application Node.js et utiliser l'API PHP avec MySQL. Sur Hostinger, `npm run build` sélectionne la configuration Node lorsque `HOSTINGER_BUILD=1` est défini. Sans cette variable, le build Lovable conserve sa configuration habituelle.
 
 ## Préparer la configuration
 
@@ -8,6 +8,7 @@ Ce projet peut conserver TanStack Start comme application Node.js et utiliser l'
 2. Dans `.env`, renseignez `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER` et `DB_PASSWORD` avec les valeurs affichées dans hPanel pour la base créée. Ne mettez jamais ces identifiants dans une variable `VITE_*`.
 3. Pour une API servie sur le même domaine sous `/api`, `VITE_API_BASE_URL` peut être vide. Si le formulaire Hostinger exige une valeur, indiquez seulement l'origine publique (par exemple `https://example.com`), sans slash final ni `/api`. Les chemins de requête contiennent déjà `/api/...`. Cette variable est intégrée au JavaScript au moment du build.
 4. Remplacez `FRONTEND_ORIGIN` par l'origine publique exacte, par exemple `https://example.com`, sans slash final. Dans les URLs de paiement, remplacez aussi ce domaine par le vôtre. Gardez les variables de paiement uniquement côté serveur. Le marqueur `{ORDER_ID}` est remplacé par le numéro de commande ; conservez `{CHECKOUT_SESSION_ID}` dans l'URL de succès pour que le paiement soit vérifié.
+5. Dans les variables d'environnement de l'application Hostinger, ajoutez `HOSTINGER_BUILD=1`. Cette variable n'est pas secrète ; elle permet au script de build de sélectionner le preset Node malgré le wrapper Lovable.
 
 ## Construire et démarrer l'application Node
 

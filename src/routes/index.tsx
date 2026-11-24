@@ -22,6 +22,22 @@ export const Route = createFileRoute("/")({
           "Entdecken Sie Anhänger, Gartengeräte, Brennholz und Holzöfen mit sicherer Zahlung und Lieferung in Deutschland.",
       },
     ],
+    links: [
+      {
+        rel: "preload",
+        as: "image",
+        href: "/hero-trailer-mobile.webp",
+        media: "(max-width: 767px)",
+        fetchPriority: "high",
+      },
+      {
+        rel: "preload",
+        as: "image",
+        href: "/hero-trailer.webp",
+        media: "(min-width: 768px)",
+        fetchPriority: "high",
+      },
+    ],
   }),
   component: Index,
 });

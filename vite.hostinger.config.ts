@@ -19,7 +19,21 @@ export default defineConfig({
       },
       server: { entry: "server" },
     }),
-    nitro({ preset: "node-server" }),
+    nitro({
+      preset: "node-server",
+      routeRules: {
+        "/assets/**": {
+          headers: {
+            "cache-control": "public, max-age=31536000, immutable",
+          },
+        },
+        "/*.webp": {
+          headers: {
+            "cache-control": "public, max-age=2592000, immutable",
+          },
+        },
+      },
+    }),
     react(),
   ],
   resolve: {

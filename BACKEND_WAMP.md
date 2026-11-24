@@ -5,7 +5,7 @@ Ce projet utilise une API PHP minimale dans `backend/api` pour se connecter à M
 ## 1. Préparer la base de données
 
 1. Démarrez WAMP et vérifiez que les services Apache et MySQL sont actifs.
-2. Par défaut, `.env` est configuré pour la base `ggs` sur WAMP local : `DB_HOST=localhost`, `DB_PORT=3306`, `DB_NAME=ggs`, `DB_USER=root`, `DB_PASSWORD` vide. Ajustez ces valeurs si votre environnement est différent.
+2. Pour WAMP local, renseignez `DB_HOST=localhost`, `DB_PORT=3306`, `DB_NAME=ggs`, `DB_USER=root` et laissez `DB_PASSWORD` vide sauf si un mot de passe MySQL a été défini.
 3. Pour une nouvelle installation uniquement, importez `database.sql`. Le script crée les tables manquantes, mais ne supprime pas les données existantes. Si des données sont déjà présentes, l'administrateur, le catalogue et la commande de démonstration ne sont pas réinsérés.
 4. Pour une base déjà utilisée, ne réimportez pas `database.sql` ; appliquez les migrations décrites ci-dessous, puis ajoutez seulement les données initiales indispensables qui manquent encore.
 
@@ -39,9 +39,9 @@ Le compte de démonstration est `test@example.com`, mot de passe `password`. Cha
 
 ## 4. Démarrer l'application
 
-1. `VITE_API_BASE_URL=/api` dans `.env` fait transiter le navigateur par le serveur Vite ; le proxy défini dans `vite.config.ts` relaie alors les requêtes vers `http://localhost` (Apache/WAMP). Gardez WAMP démarré.
+1. Avec l'API WAMP accessible à `http://localhost/api`, définissez `VITE_API_BASE_URL=http://localhost`. Les chemins d'API contiennent déjà `/api`; ne mettez pas `/api` dans cette variable.
 2. Définissez `FRONTEND_ORIGIN` avec l'URL exacte du front (par exemple `http://localhost:8080`).
-3. Ne mettez pas d'URL PHP dans `VITE_API_BASE_URL` : l'API doit passer par le proxy Vite pour que les cookies de session fonctionnent.
+3. Le navigateur appelle directement Apache/WAMP ; gardez WAMP démarré et vérifiez que l'alias `/api` pointe vers `backend/api`.
 4. Lancez le front avec `npm run dev`.
 5. Pour les routes `/auth`, `/account`, `/contact` et `/checkout` (soumission de commande), le navigateur contacte l'API PHP, qui lit et écrit dans MySQL via PDO. Les produits, catégories et avis publics utilisent encore le catalogue local (`src/lib/data.ts`) comme solution de secours lorsque l'API n'est pas disponible.
 

@@ -134,8 +134,9 @@ try {
 }
 
 $frontendOrigin = rtrim((string) ($_ENV['FRONTEND_ORIGIN'] ?? ''), '/');
-$successUrl = trim((string) ($_ENV['PAYMENT_SUCCESS_URL'] ?? ''));
-$cancelUrl = trim((string) ($_ENV['PAYMENT_CANCEL_URL'] ?? ''));
+$orderIdPlaceholder = (string) $orderId;
+$successUrl = str_replace('{ORDER_ID}', $orderIdPlaceholder, trim((string) ($_ENV['PAYMENT_SUCCESS_URL'] ?? '')));
+$cancelUrl = str_replace('{ORDER_ID}', $orderIdPlaceholder, trim((string) ($_ENV['PAYMENT_CANCEL_URL'] ?? '')));
 if ($successUrl === '' && $frontendOrigin !== '') {
     $successUrl = $frontendOrigin . '/payment-success?order=' . $orderId . '&session_id={CHECKOUT_SESSION_ID}';
 } elseif ($successUrl !== '' && strpos($successUrl, '{CHECKOUT_SESSION_ID}') === false && strpos($successUrl, 'session_id=') === false) {
@@ -148,7 +149,11 @@ if ($successUrl === '' || $cancelUrl === '') {
     api_json(['message' => 'Configuration de paiement incomplète (URL de retour). Vérifiez FRONTEND_ORIGIN.'], 500);
 }
 
-$fallbackPaymentUrl = trim((string) ($_ENV['PAYMENT_FALLBACK_URL'] ?? ''));
+$fallbackPaymentUrl = str_replace(
+    '{ORDER_ID}',
+    $orderIdPlaceholder,
+    trim((string) ($_ENV['PAYMENT_FALLBACK_URL'] ?? ''))
+);
 $stripeSecretKey = trim((string) ($_ENV['STRIPE_SECRET_KEY'] ?? $_ENV['PAYMENT_API_KEY'] ?? ''));
 
 if ($stripeSecretKey === '') {

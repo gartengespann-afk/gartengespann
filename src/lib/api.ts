@@ -17,7 +17,7 @@ export async function apiRequest<T>(path: string, init: RequestInit = {}): Promi
     const apiUrl = `${API_BASE_URL}${path}`;
     const pageOrigin = typeof window === "undefined" ? "inconnue" : window.location.origin;
     throw new Error(
-      `Connexion à l’API impossible (${apiUrl}). Vérifiez que WAMP est démarré et que FRONTEND_ORIGIN dans .env correspond exactement à l’origine du site (${pageOrigin}), puis redémarrez Apache.`,
+      `Connexion à l’API impossible (${apiUrl}). Vérifiez que l’API PHP répond et que FRONTEND_ORIGIN dans .env correspond exactement à l’origine du site (${pageOrigin}).`,
     );
   }
 
@@ -30,7 +30,7 @@ export async function apiRequest<T>(path: string, init: RequestInit = {}): Promi
   } catch {
     if (!contentType.toLowerCase().includes("application/json")) {
       throw new Error(
-        `L’API PHP n’a pas répondu en JSON (HTTP ${response.status}, ${response.url}). Vérifiez que le proxy Vite est actif et que WAMP répond.`,
+        `L’API PHP n’a pas répondu en JSON (HTTP ${response.status}, ${response.url}). Vérifiez que cette URL est routée vers PHP.`,
       );
     }
     throw new Error(

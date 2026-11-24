@@ -7,9 +7,14 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useCart } from "@/lib/cart";
+import { useFavorites } from "@/lib/favorites";
+import { useAuth } from "@/lib/auth";
+import { useProducts } from "@/lib/products";
+import { apiRequest } from "@/lib/api";
 import { PageHeader } from "@/components/site/PageHeader";
+import { ProductImage } from "@/components/site/ProductImage";
 import { useLang, pickName, pickDesc, pickSubtitle } from "@/lib/i18n";
-import { getProductBySlug, getSimilarProducts, getNavProducts, productHasWarranty, categories as allCategories } from "@/lib/data";
+import { productHasWarranty, categories as allCategories, products as allProducts, type Product } from "@/lib/data";
 import { toast } from "sonner";
 import {
   ChevronUp,
@@ -46,29 +51,56 @@ function ProductNotFound() {
   );
 }
 
-function ProductError() {
+function ProductError({ message }: { message?: string }) {
   const { t } = useLang();
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
       <div className="container mx-auto px-4 py-16 text-center flex-1">
         <h1 className="text-3xl font-bold">{t("pageError")}</h1>
-        <p className="mt-3 text-muted-foreground">{t("pageErrorDesc")}</p>
+        <p role="alert" className="mt-3 text-muted-foreground">{message ?? t("pageErrorDesc")}</p>
       </div>
       <Footer />
     </div>
   );
 }
 
+function ErrorComponent() {
+  return <ProductError />;
+}
+
 export const Route = createFileRoute("/product/$slug")({
+  loader: ({ params }) => ({
+    staticProduct: allProducts.find((p) => p.slug === params.slug) ?? null,
+  }),
+  head: ({ loaderData }) => {
+    const p = loaderData?.staticProduct;
+    const name = (p?.name_de || p?.name_fr || p?.name_en || "Produkt").trim();
+    const base = " – GARTEN-GESPANN";
+    let title = name + base;
+    if (title.length > 60) {
+      const maxName = Math.max(10, 60 - base.length - 1);
+      title = name.slice(0, maxName).trimEnd() + "…" + base;
+    }
+    const rawDesc = (p?.description_de || p?.description_fr || p?.description_en || "")
+      .replace(/<[^>]*>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    let description = rawDesc || `Entdecken Sie ${name}: Eigenschaften, Preis und Produktdetails bei GARTEN-GESPANN.`;
+    if (description.length > 155) description = description.slice(0, 152).trimEnd() + "...";
+    return { meta: [{ title }, { name: "description", content: description }] };
+  },
   component: ProductPage,
   notFoundComponent: () => <ProductNotFound />,
-  errorComponent: ProductError,
+  errorComponent: ErrorComponent,
 });
 
 function ProductPage() {
   const { slug } = Route.useParams();
   const { add, openCart } = useCart();
+  const { slugs: favoriteSlugs, toggle } = useFavorites();
+  const { csrfToken, user, loading: authLoading, error: authError } = useAuth();
+  const { products, loading: productsLoading, error: productsError } = useProducts();
   const { t, lang } = useLang();
   const [qty, setQty] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
@@ -86,25 +118,96 @@ function ProductPage() {
     return () => window.removeEventListener("keydown", handleKey);
   }, [lightboxOpen, closeLightbox]);
   const [reviews, setReviews] = useState<Array<{ id: number; name: string; rating: number; comment: string }>>([]);
+  const [reviewsLoading, setReviewsLoading] = useState(true);
+  const [reviewsError, setReviewsError] = useState<string | null>(null);
   const [reviewForm, setReviewForm] = useState({ name: "", email: "", rating: 0, comment: "" });
   const [ratingError, setRatingError] = useState(false);
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
+  const [reviewSubmitError, setReviewSubmitError] = useState<string | null>(null);
+  const [reviewSubmitted, setReviewSubmitted] = useState(false);
 
-  const product = getProductBySlug(slug);
+  const product = products.find((candidate) => candidate.slug === slug);
 
   const similarProducts = product?.category_id
-    ? getSimilarProducts(product.category_id, product.id, 999)
+    ? products
+        .filter((candidate) => candidate.category_id === product.category_id && candidate.id !== product.id)
+        .sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
     : [];
 
   const navProducts = product?.category_id
-    ? getNavProducts(product.category_id).map((p) => p.slug)
+    ? products
+        .filter((candidate) => candidate.category_id === product.category_id)
+        .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+        .map((candidate) => candidate.slug)
     : [];
 
+  const reviewsLoadError = t("reviewLoadError");
+  useEffect(() => {
+    if (!product) return;
+    let active = true;
+
+    const refreshReviews = async () => {
+      try {
+        const result = await apiRequest<{
+          reviews: Array<{ id: number; name: string; rating: number; comment: string }>;
+        }>(`/api/reviews.php?product=${encodeURIComponent(slug)}`);
+        if (active) {
+          setReviews(result.reviews);
+          setReviewsError(null);
+        }
+      } catch {
+        if (active) setReviewsError(reviewsLoadError);
+      } finally {
+        if (active) setReviewsLoading(false);
+      }
+    };
+
+    void refreshReviews();
+    const intervalId = window.setInterval(() => void refreshReviews(), 30_000);
+    window.addEventListener("focus", refreshReviews);
+    return () => {
+      active = false;
+      window.clearInterval(intervalId);
+      window.removeEventListener("focus", refreshReviews);
+    };
+  }, [product, reviewsLoadError, slug]);
+
+  useEffect(() => {
+    if (!user) return;
+    setReviewForm((previous) => ({
+      ...previous,
+      name: previous.name || `${user.first_name} ${user.last_name}`,
+      email: previous.email || user.email,
+    }));
+  }, [user]);
+
+  useEffect(() => {
+    if (!authLoading && !csrfToken && authError) {
+      setReviewSubmitError(authError);
+    }
+  }, [authError, authLoading, csrfToken]);
+
+  if (productsError) {
+    return <ProductError message={productsError} />;
+  }
+  if (productsLoading) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <p role="status" className="container mx-auto flex-1 px-4 py-16 text-center text-muted-foreground">
+          {t("loadingProducts")}
+        </p>
+        <Footer />
+      </div>
+    );
+  }
   if (!product) {
     return <ProductNotFound />;
   }
 
   const category = product.category_id ? allCategories.find((c) => c.id === product.category_id) ?? null : null;
   const name = pickName(product, lang);
+  const isFavorite = favoriteSlugs.includes(product.slug);
   const subtitle = pickSubtitle(product, lang);
   const desc = pickDesc(product, lang);
   const gallery = product.gallery ?? [];
@@ -123,25 +226,40 @@ function ProductPage() {
     ...(productHasWarranty(product) ? [{ icon: Award, text: t("warranty3") }] : []),
   ] as const;
 
-  const handleReviewSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleReviewSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setRatingError(false);
-    if (!reviewForm.name.trim() || !reviewForm.comment.trim()) return;
+    setReviewSubmitError(null);
+    setReviewSubmitted(false);
     if (reviewForm.rating === 0) {
       setRatingError(true);
       return;
     }
-    setReviews((prev) => [
-      {
-        id: Date.now(),
-        name: reviewForm.name.trim(),
-        rating: reviewForm.rating,
-        comment: reviewForm.comment.trim(),
-      },
-      ...prev,
-    ]);
-    setReviewForm({ name: "", email: "", rating: 0, comment: "" });
-    toast.success(t("reviewPosted"));
+    if (!csrfToken) {
+      setReviewSubmitError(t("reviewSessionError"));
+      return;
+    }
+
+    setIsSubmittingReview(true);
+    try {
+      await apiRequest<{ message: string }>("/api/reviews.php", {
+        method: "POST",
+        headers: { "X-CSRF-Token": csrfToken },
+        body: JSON.stringify({
+          product_slug: product.slug,
+          name: reviewForm.name.trim(),
+          email: reviewForm.email.trim(),
+          rating: reviewForm.rating,
+          comment: reviewForm.comment.trim(),
+        }),
+      });
+      setReviewForm({ name: "", email: "", rating: 0, comment: "" });
+      setReviewSubmitted(true);
+    } catch (cause: unknown) {
+      setReviewSubmitError(cause instanceof Error ? cause.message : t("errorGeneric"));
+    } finally {
+      setIsSubmittingReview(false);
+    }
   };
 
   const averageRating = reviews.length
@@ -187,9 +305,14 @@ function ProductPage() {
                               : "border-border hover:border-muted-foreground/40"
                           }`}
                         >
-                          <img
+                          <ProductImage
                             src={src}
+                            sizes="72px"
                             alt={`${name} ${i + 1}`}
+                            width={72}
+                            height={72}
+                            loading="lazy"
+                            decoding="async"
                             className="w-full h-full object-contain"
                           />
                         </button>
@@ -215,9 +338,15 @@ function ProductPage() {
                   </div>
                 )}
 
-                <img
+                <ProductImage
                   src={images[selectedImage] ?? "/placeholder.svg"}
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   alt={name}
+                  width={800}
+                  height={800}
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
                   className="w-full h-full object-contain p-4"
                 />
 
@@ -381,9 +510,23 @@ function ProductPage() {
             </div>
 
             <div className="mt-5 flex items-center gap-6 text-sm text-muted-foreground">
-              <button className="flex items-center gap-1.5 hover:text-accent transition-colors">
-                <Heart className="w-4 h-4" />
-                {t("addToWishlist")}
+              <button
+                type="button"
+                onClick={() => {
+                  void toggle({
+                    slug: product.slug,
+                    name,
+                    price_eur: Number(product.price_eur),
+                    image_url: product.image_url,
+                  }).catch((cause: unknown) =>
+                    toast.error(cause instanceof Error ? cause.message : t("errorGeneric")),
+                  );
+                }}
+                aria-pressed={isFavorite}
+                className="flex items-center gap-1.5 hover:text-accent transition-colors"
+              >
+                <Heart className={`w-4 h-4 ${isFavorite ? "fill-red-500 text-red-500" : ""}`} />
+                {isFavorite ? t("removeFromWishlist") : t("addToWishlist")}
               </button>
             </div>
 
@@ -401,9 +544,13 @@ function ProductPage() {
             >
               ✕
             </button>
-            <img
+            <ProductImage
               src={images[selectedImage] ?? "/placeholder.svg"}
+              sizes="90vw"
               alt={name}
+              width={1200}
+              height={1200}
+              decoding="async"
               className="max-w-[90vw] max-h-[90vh] object-contain"
               onClick={(e) => e.stopPropagation()}
             />
@@ -442,7 +589,11 @@ function ProductPage() {
                   </div>
                 </div>
 
-                {reviews.length === 0 ? (
+                {reviewsError ? (
+                  <p role="alert" className="mt-6 text-sm text-destructive">{reviewsError}</p>
+                ) : reviewsLoading ? (
+                  <p role="status" className="mt-6 text-sm text-muted-foreground">{t("loadingReviews")}</p>
+                ) : reviews.length === 0 ? (
                   <div className="mt-6 rounded-lg border border-dashed p-6 text-center text-sm text-muted-foreground">
                     {t("reviewEmpty")}
                   </div>
@@ -471,6 +622,14 @@ function ProductPage() {
               <section className="rounded-2xl border bg-card p-6 shadow-sm">
                 <h2 className="text-xl font-semibold">{t("leaveReview")}</h2>
                 <form onSubmit={handleReviewSubmit} className="mt-6 space-y-4">
+                  {reviewSubmitted && (
+                    <p role="status" className="rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-900">
+                      {t("reviewPending")}
+                    </p>
+                  )}
+                  {reviewSubmitError && (
+                    <p role="alert" className="text-sm text-destructive">{reviewSubmitError}</p>
+                  )}
                   <div className="space-y-2">
                     <label className="text-sm font-medium" htmlFor="review-name">{t("reviewName")}</label>
                     <Input
@@ -504,6 +663,7 @@ function ProductPage() {
                             setRatingError(false);
                           }}
                           className="transition-colors"
+                          aria-label={`${star}/5`}
                         >
                           <Star
                             className={`w-6 h-6 cursor-pointer ${
@@ -530,8 +690,12 @@ function ProductPage() {
                       required
                     />
                   </div>
-                  <Button type="submit" className="w-full sm:w-auto">
-                    {t("submitReview")}
+                  <Button
+                    type="submit"
+                    className="w-full sm:w-auto"
+                    disabled={isSubmittingReview || authLoading || !csrfToken}
+                  >
+                    {isSubmittingReview ? t("submittingReview") : t("submitReview")}
                   </Button>
                 </form>
               </section>
@@ -548,7 +712,7 @@ function ProductPage() {
   );
 }
 
-function SimilarProductsCarousel({ products }: { products: any[] }) {
+function SimilarProductsCarousel({ products }: { products: Product[] }) {
   const { lang, t } = useLang();
   const { add, openCart } = useCart();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -605,7 +769,16 @@ function SimilarProductsCarousel({ products }: { products: any[] }) {
               <div key={item.id} className="overflow-hidden rounded-xl border bg-card transition-shadow hover:shadow-md">
                 <Link to="/product/$slug" params={{ slug: item.slug }}>
                   <div className="aspect-square bg-muted">
-                    <img src={item.image_url ?? ""} alt={similarName} className="h-full w-full object-cover" />
+                    <ProductImage
+                      src={item.image_url ?? ""}
+                      sizes="(max-width: 640px) 50vw, 25vw"
+                      alt={similarName}
+                      width={400}
+                      height={400}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full object-cover"
+                    />
                   </div>
                 </Link>
                 <div className="p-4">

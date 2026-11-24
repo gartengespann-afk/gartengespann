@@ -1,5 +1,5 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { PageHeader } from "@/components/site/PageHeader";
@@ -9,48 +9,87 @@ import { Label } from "@/components/ui/label";
 import { useCart } from "@/lib/cart";
 import { useAuth } from "@/lib/auth";
 import { useLang } from "@/lib/i18n";
-import { saveOrder } from "@/lib/data";
-import { toast } from "sonner";
+import { apiRequest } from "@/lib/api";
 
 export const Route = createFileRoute("/checkout")({
-  head: () => ({ meta: [{ title: "Commande — GARTEN-GESPANN" }] }),
+  head: () => ({
+    meta: [
+      { title: "Bestellung abschließen – GARTEN-GESPANN" },
+      {
+        name: "description",
+        content:
+          "Geben Sie Ihre Lieferdaten ein und schließen Sie Ihre Bestellung sicher bei GARTEN-GESPANN ab.",
+      },
+    ],
+  }),
   component: CheckoutPage,
 });
 
 function CheckoutPage() {
   const { items, total, clear } = useCart();
-  const { user } = useAuth();
+  const { user, csrfToken, loading: authLoading } = useAuth();
   const { t } = useLang();
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [form, setForm] = useState({
-    email: user?.email ?? "",
-    full_name: "", address: "", city: "", postal_code: "", country: "Deutschland", phone: "",
+    email: "",
+    full_name: "",
+    address: "",
+    city: "",
+    postal_code: "",
+    country: "Deutschland",
+    phone: "",
   });
+
+  useEffect(() => {
+    if (!user) return;
+    setForm((prev) => ({
+      ...prev,
+      email: prev.email || user.email,
+      full_name: prev.full_name || `${user.first_name} ${user.last_name}`.trim(),
+    }));
+  }, [user]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitError(null);
+
     if (items.length === 0) return;
+    if (!csrfToken) {
+      setSubmitError(t("reviewSessionError"));
+      return;
+    }
+
     setLoading(true);
-    saveOrder({
-      email: form.email,
-      full_name: form.full_name,
-      address: form.address,
-      city: form.city,
-      postal_code: form.postal_code,
-      country: form.country,
-      phone: form.phone ?? null,
-      notes: null,
-      total_eur: total,
-      order_items: items.map((it) => ({
-        product_name: it.name,
-        unit_price_eur: it.price,
-        quantity: it.quantity,
-      })),
-    });
-    clear();
-    toast.success(t("orderConfirmed"));
-    navigate({ to: "/" });
+    try {
+      const response = await apiRequest<{ orderId: number; paymentUrl: string }>("/api/checkout.php", {
+        method: "POST",
+        headers: { "X-CSRF-Token": csrfToken },
+        body: JSON.stringify({
+          email: form.email.trim(),
+          full_name: form.full_name.trim(),
+          address: form.address.trim(),
+          city: form.city.trim(),
+          postal_code: form.postal_code.trim(),
+          country: form.country.trim(),
+          phone: form.phone.trim(),
+          items: items.map((item) => ({
+            slug: item.slug,
+            quantity: item.quantity,
+          })),
+        }),
+      });
+
+      if (!response.paymentUrl) {
+        throw new Error(t("errorGeneric"));
+      }
+
+      clear();
+      window.location.href = response.paymentUrl;
+    } catch (cause: unknown) {
+      setSubmitError(cause instanceof Error ? cause.message : t("errorGeneric"));
+      setLoading(false);
+    }
   };
 
   const fields: Array<{ k: keyof typeof form; label: keyof typeof form | "fullName" | "postalCode"; req?: boolean }> = [
@@ -63,12 +102,19 @@ function CheckoutPage() {
     { k: "phone", label: "phone" },
   ];
 
+  const isSubmitDisabled = loading || authLoading || !csrfToken || items.length === 0;
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
       <PageHeader title={t("checkout")} />
       <form onSubmit={submit} className="container mx-auto px-4 py-8 flex-1 grid lg:grid-cols-[1fr_360px] gap-6 md:gap-8">
         <div className="space-y-4 order-2 lg:order-1">
+          {submitError && (
+            <p role="alert" className="rounded-lg border border-destructive/30 bg-destructive/5 p-3 text-sm text-destructive">
+              {submitError}
+            </p>
+          )}
           {fields.map(({ k, label, req }) => (
             <div key={k}>
               <Label htmlFor={k} className="text-sm md:text-base">{t(label as never)}</Label>
@@ -76,7 +122,7 @@ function CheckoutPage() {
             </div>
           ))}
           <div className="lg:hidden">
-            <Button type="submit" disabled={loading} size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+            <Button type="submit" disabled={isSubmitDisabled} size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
               {loading ? "..." : t("placeOrder")}
             </Button>
           </div>
@@ -92,7 +138,7 @@ function CheckoutPage() {
           <div className="flex justify-between font-bold text-base md:text-lg border-t pt-3 mt-3">
             <span>{t("total")}</span><span>{total.toFixed(2)} €</span>
           </div>
-          <Button type="submit" disabled={loading} size="lg" className="hidden lg:flex w-full mt-6 bg-accent text-accent-foreground hover:bg-accent/90">
+          <Button type="submit" disabled={isSubmitDisabled} size="lg" className="hidden lg:flex w-full mt-6 bg-accent text-accent-foreground hover:bg-accent/90">
             {loading ? "..." : t("placeOrder")}
           </Button>
         </aside>

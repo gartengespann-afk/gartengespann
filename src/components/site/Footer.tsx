@@ -1,14 +1,24 @@
 import { Link } from "@tanstack/react-router";
 import { useLang } from "@/lib/i18n";
+import { useCookieConsent } from "@/lib/cookie-consent";
 
 export function Footer() {
   const { t } = useLang();
+  const { openPreferences } = useCookieConsent();
   return (
     <footer className="mt-16 border-t bg-primary text-primary-foreground">
       <div className="container mx-auto grid grid-cols-1 gap-8 px-4 py-10 sm:grid-cols-2 md:grid-cols-4 md:py-12">
         <div className="md:pl-8 lg:pl-16">
           <div className="flex items-center gap-2">
-            <img src="/Icône_Bout.png" alt="" className="h-11 w-11 shrink-0 object-contain" />
+            <img
+              src="/Icône_Bout.webp"
+              alt=""
+              width={44}
+              height={44}
+              loading="lazy"
+              decoding="async"
+              className="h-11 w-11 shrink-0 object-contain"
+            />
             <span className="text-lg font-extrabold tracking-tight text-white sm:text-xl">
               GARTEN-GESPANN
             </span>
@@ -18,12 +28,12 @@ export function Footer() {
         <div className="md:pl-4">
           <div className="mb-3 text-sm font-semibold md:text-base">{t("termsTitle")}</div>
           <ul className="space-y-2 text-sm opacity-80">
-            <li><Link to="/privacy" className="transition-opacity hover:opacity-100">{t("privacy")}</Link></li>
-            <li><Link to="/delivery" className="transition-opacity hover:opacity-100">{t("deliveryInfo")}</Link></li>
-            <li><Link to="/legal" className="transition-opacity hover:opacity-100">{t("legalNotice")}</Link></li>
-            <li><Link to="/returns" className="transition-opacity hover:opacity-100">{t("returnsAndRefunds")}</Link></li>
-            <li><Link to="/terms" className="transition-opacity hover:opacity-100">{t("termsOfSale")}</Link></li>
-            <li><Link to="/payment" className="transition-opacity hover:opacity-100">{t("paymentMethods")}</Link></li>
+            <li><a href="/privacy" className="transition-opacity hover:opacity-100">{t("privacy")}</a></li>
+            <li><a href="/delivery" className="transition-opacity hover:opacity-100">{t("deliveryInfo")}</a></li>
+            <li><a href="/legal" className="transition-opacity hover:opacity-100">{t("legalNotice")}</a></li>
+            <li><a href="/returns" className="transition-opacity hover:opacity-100">{t("returnsAndRefunds")}</a></li>
+            <li><a href="/terms" className="transition-opacity hover:opacity-100">{t("termsOfSale")}</a></li>
+            <li><a href="/payment" className="transition-opacity hover:opacity-100">{t("paymentMethods")}</a></li>
           </ul>
         </div>
         <div>
@@ -47,16 +57,30 @@ export function Footer() {
       </div>
       <div className="border-t border-white/10 py-4 text-center text-xs">
         © 2018 GARTEN-GESPANN. {t("allRightsReserved")}.
+        <div className="mt-2">
+          <button type="button" onClick={openPreferences} className="underline underline-offset-2 opacity-80 transition-opacity hover:opacity-100">
+            {t("cookieConsentManage")}
+          </button>
+        </div>
         <div className="mx-auto mt-3 flex max-w-md flex-wrap items-center justify-center gap-2">
           {[
-            { src: "/card1.jpg", alt: "Visa" },
-            { src: "/card2.png", alt: "Mastercard" },
-            { src: "/card3.png", alt: "PayPal" },
+            { src: "/card1.webp", alt: "Visa" },
+            { src: "/card2.webp", alt: "Mastercard" },
+            { src: "/card3.webp", alt: "PayPal" },
             { src: "/card4.webp", alt: "American Express" },
-            { src: "/card5.png", alt: "Visa Electron" },
-            { src: "/card6.png", alt: "Maestro" },
+            { src: "/card5.webp", alt: "Visa Electron" },
+            { src: "/card6.webp", alt: "Maestro" },
           ].map((p) => (
-            <img key={p.alt} src={p.src} alt={p.alt} className="h-8 w-auto" />
+            <img
+              key={p.alt}
+              src={p.src}
+              alt={p.alt}
+              width={64}
+              height={32}
+              loading="lazy"
+              decoding="async"
+              className="h-8 w-auto"
+            />
           ))}
         </div>
       </div>

@@ -12,6 +12,8 @@ INSERT INTO public.categories (slug, name_de, name_fr, name_en, sort_order) VALU
 ON CONFLICT (slug) DO NOTHING;
 
 -- Seed products
+-- External image URLs are preserved because the source host returned HTML instead of valid image files.
+-- Replace them with local WebP paths only after the actual source images are available.
 INSERT INTO public.products (slug, category_id, name_de, name_fr, name_en, description_de, description_fr, description_en, price_eur, image_url, gallery, is_hot, stock) VALUES
   (
     'tipp-750-kip-kuppel',

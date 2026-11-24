@@ -5,15 +5,15 @@ import { Button } from "@/components/ui/button";
 import { useLang } from "@/lib/i18n";
 
 const SLIDES = [
-  { src: "/hero-trailer.jpg", key: "trailers", position: "50% 50%" },
-  { src: "/hero-lawn-mower.jpg", key: "lawn-mowers", position: "72% 55%" },
-  { src: "/hero-chainsaw.jpg", key: "chainsaws", position: "55% 50%" },
-  { src: "/50-1.jpg", key: "firewood", position: "50% 50%" },
-  { src: "/accessories-trailer-hitch.jpg", key: "accessories", position: "70% 50%" },
-  { src: "/51-1.jpg", key: "wood-pellets", position: "50% 50%" },
-  { src: "/49-1.jpg", key: "wood-briquettes", position: "50% 50%" },
-  { src: "/52-1.jpg", key: "firelighters-kindling", position: "50% 50%" },
-  { src: "/53-1.jpg", key: "wood-stoves", position: "50% 50%" },
+  { src: "/hero-trailer.webp", key: "trailers", position: "50% 50%" },
+  { src: "/hero-lawn-mower.webp", key: "lawn-mowers", position: "72% 55%" },
+  { src: "/hero-chainsaw.webp", key: "chainsaws", position: "55% 50%" },
+  { src: "/50-1.webp", key: "firewood", position: "50% 50%" },
+  { src: "/accessories-trailer-hitch.webp", key: "accessories", position: "70% 50%" },
+  { src: "/51-1.webp", key: "wood-pellets", position: "50% 50%" },
+  { src: "/49-1.webp", key: "wood-briquettes", position: "50% 50%" },
+  { src: "/52-1.webp", key: "firelighters-kindling", position: "50% 50%" },
+  { src: "/53-1.webp", key: "wood-stoves", position: "50% 50%" },
 ] as const;
 
 const AUTOPLAY_MS = 6000;
@@ -53,7 +53,10 @@ export function Hero() {
             key={slide.key}
             src={slide.src}
             alt=""
+            width={1920}
+            height={1080}
             loading={index === 0 ? "eager" : "lazy"}
+            fetchPriority={index === 0 ? "high" : "auto"}
             decoding="async"
             style={{ objectPosition: slide.position }}
             className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[1400ms] ease-in-out ${

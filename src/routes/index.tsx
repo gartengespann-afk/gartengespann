@@ -8,16 +8,28 @@ import { Testimonials } from "@/components/site/Testimonials";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLang, pickName } from "@/lib/i18n";
-import { getFeaturedProducts, categories as allCategories } from "@/lib/data";
+import { categories as allCategories } from "@/lib/data";
+import { useProducts } from "@/lib/products";
 import { Search, Shield, Headphones, Truck } from "lucide-react";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Startseite – GARTEN-GESPANN" },
+      {
+        name: "description",
+        content:
+          "Entdecken Sie Anhänger, Gartengeräte, Brennholz und Holzöfen mit sicherer Zahlung und Lieferung in Deutschland.",
+      },
+    ],
+  }),
   component: Index,
 });
 
 function Index() {
   const { t, lang } = useLang();
   const navigate = useNavigate();
+  const { products, loading: productsLoading, error: productsError } = useProducts();
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = (e: React.FormEvent) => {
@@ -27,7 +39,7 @@ function Index() {
     }
   };
 
-  const featured = getFeaturedProducts();
+  const featured = [...products].sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
   const categories = allCategories;
 
   return (
@@ -97,11 +109,17 @@ function Index() {
             {t("viewAll")} →
           </Link>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
-          {featured.map((p) => (
-            <ProductCard key={p.id} product={p} />
-          ))}
-        </div>
+        {productsError ? (
+          <p role="alert" className="text-sm text-destructive">{productsError}</p>
+        ) : productsLoading ? (
+          <p role="status" className="text-sm text-muted-foreground">{t("loadingProducts")}</p>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+            {featured.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        )}
       </section>
 
 {/* Chainsaw Promo Banner */}
@@ -109,8 +127,12 @@ function Index() {
         <div className="grid md:grid-cols-[1fr_2fr_1fr]">
           <div className="relative hidden md:block min-h-[600px]">
             <img
-              src="/img-g.jpg"
+              src="/img-g.webp"
               alt=""
+              width={1200}
+              height={800}
+              loading="lazy"
+              decoding="async"
               className="absolute inset-0 h-full w-full object-cover"
             />
           </div>
@@ -140,8 +162,12 @@ function Index() {
                 }}
               />
               <img
-                src="/img-b.jpg"
+                src="/img-b.webp"
                 alt={t("chainsawAlt")}
+                width={280}
+                height={360}
+                loading="lazy"
+                decoding="async"
                 className="relative mx-auto w-4/5 -mb-10 max-w-[280px] md:-mb-16"
               />
             </div>
@@ -149,8 +175,12 @@ function Index() {
 
           <div className="relative hidden md:block min-h-[600px]">
             <img
-              src="/img-d.jpg"
+              src="/img-d.webp"
               alt=""
+              width={1200}
+              height={800}
+              loading="lazy"
+              decoding="async"
               className="absolute inset-0 h-full w-full object-cover"
             />
           </div>

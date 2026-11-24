@@ -1,0 +1,6 @@
+Options -Indexes
+
+# Empêche la lecture des fichiers cachés, notamment .env, depuis le navigateur.
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>

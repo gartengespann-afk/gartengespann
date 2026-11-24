@@ -1,0 +1,6 @@
+Options -Indexes
+
+# Le fichier d'initialisation n'est pas une route publique de l'API.
+<Files "_bootstrap.php">
+    Require all denied
+</Files>

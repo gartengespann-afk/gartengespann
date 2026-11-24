@@ -6,15 +6,20 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useLang } from "@/lib/i18n";
+import { apiRequest } from "@/lib/api";
+import { useAuth } from "@/lib/auth";
 import { Building2, Clock3, Mail, MapPin, Phone } from "lucide-react";
-import { useState, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Kontakt — GARTEN-GESPANN" },
-      { name: "description", content: "Kontaktieren Sie uns per E-Mail, Telefon oder Adresse." },
-      { property: "og:title", content: "Kontakt" },
+      { title: "Kontakt – GARTEN-GESPANN" },
+      {
+        name: "description",
+        content:
+          "Kontaktieren Sie GARTEN-GESPANN per E-Mail, Telefon oder Formular bei Fragen zu Produkten und Bestellungen.",
+      },
     ],
   }),
   component: ContactPage,
@@ -22,22 +27,66 @@ export const Route = createFileRoute("/contact")({
 
 function ContactPage() {
   const { t } = useLang();
+  const { csrfToken, user, loading: authLoading, error: authError } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     subject: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
+  useEffect(() => {
+    if (!user) return;
+    setFormData((prev) => ({
+      ...prev,
+      name: prev.name || `${user.first_name} ${user.last_name}`.trim(),
+      email: prev.email || user.email,
+    }));
+  }, [user]);
+
+  useEffect(() => {
+    if (!authLoading && !csrfToken && authError) {
+      setSubmitError(authError);
+    }
+  }, [authError, authLoading, csrfToken]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const body = `Nom: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`;
-    window.location.href = `mailto:gartengespann@gmail.com?subject=${encodeURIComponent(formData.subject || t("contactRequest"))}&body=${encodeURIComponent(body)}`;
+    setSubmitError(null);
+    setSubmitSuccess(false);
+
+    if (!csrfToken) {
+      setSubmitError(t("contactSessionError"));
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      await apiRequest<{ message: string }>("/api/contact.php", {
+        method: "POST",
+        headers: { "X-CSRF-Token": csrfToken },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          subject: formData.subject.trim(),
+          message: formData.message.trim(),
+        }),
+      });
+      setFormData({ name: "", email: "", subject: "", message: "" });
+      setSubmitSuccess(true);
+    } catch (cause: unknown) {
+      setSubmitError(cause instanceof Error ? cause.message : t("errorGeneric"));
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -51,6 +100,17 @@ function ContactPage() {
             <p className="mt-2 text-sm text-muted-foreground">{t("contactFormDesc")}</p>
 
             <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+              {submitSuccess && (
+                <p role="status" className="rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-900">
+                  {t("contactSuccess")}
+                </p>
+              )}
+              {submitError && (
+                <p role="alert" className="rounded-lg border border-destructive/30 bg-destructive/5 p-3 text-sm text-destructive">
+                  {submitError}
+                </p>
+              )}
+
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <label className="text-sm font-medium" htmlFor="name">{t("contactName")}</label>
@@ -72,8 +132,8 @@ function ContactPage() {
                 <Textarea id="message" name="message" value={formData.message} onChange={handleChange} placeholder={t("contactMessagePlaceholder")} rows={6} required />
               </div>
 
-              <Button type="submit" className="w-full sm:w-auto">
-                {t("contactSubmit")}
+              <Button type="submit" className="w-full sm:w-auto" disabled={isSubmitting || authLoading || !csrfToken}>
+                {isSubmitting ? t("contactSending") : t("contactSubmit")}
               </Button>
             </form>
           </div>
@@ -92,7 +152,7 @@ function ContactPage() {
                 </div>
                 <div className="flex items-start gap-3">
                   <Mail className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
-                  <span>gartengespann@gmail.com</span>
+                  <span>Kontakt@gartengespann.de</span>
                 </div>
                 <div className="flex items-start gap-3">
                   <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-accent" />

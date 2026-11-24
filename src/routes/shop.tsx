@@ -6,7 +6,8 @@ import { Footer } from "@/components/site/Footer";
 import { ProductCard } from "@/components/site/ProductCard";
 import { PageHeader } from "@/components/site/PageHeader";
 import { useLang, pickName } from "@/lib/i18n";
-import { products as allProducts, categories as allCategories } from "@/lib/data";
+import { categories as allCategories } from "@/lib/data";
+import { useProducts } from "@/lib/products";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
@@ -16,10 +17,12 @@ export const Route = createFileRoute("/shop")({
   validateSearch: searchSchema,
   head: () => ({
     meta: [
-      { title: "Boutique — GARTEN-GESPANN" },
-      { name: "description", content: "Catalogue complet : remorques, tondeuses, tronçonneuses, bois de chauffage." },
-      { property: "og:title", content: "Boutique — GARTEN-GESPANN" },
-      { property: "og:description", content: "Découvrez notre catalogue complet." },
+      { title: "Shop – GARTEN-GESPANN" },
+      {
+        name: "description",
+        content:
+          "Durchsuchen Sie Anhänger, Rasenmäher, Kettensägen, Brennholz, Pellets und Holzöfen im Online-Shop.",
+      },
     ],
   }),
   component: ShopPage,
@@ -28,6 +31,7 @@ export const Route = createFileRoute("/shop")({
 function ShopPage() {
   const { category, q } = Route.useSearch();
   const { t, lang } = useLang();
+  const { products: allProducts, loading: productsLoading, error: productsError } = useProducts();
   const [filterOpen, setFilterOpen] = useState(false);
 
   const categories = allCategories;
@@ -89,7 +93,11 @@ function ShopPage() {
           </aside>
 
           <div>
-            {products.length === 0 ? (
+            {productsError ? (
+              <p role="alert" className="text-sm text-destructive">{productsError}</p>
+            ) : productsLoading ? (
+              <p role="status" className="text-sm text-muted-foreground">{t("loadingProducts")}</p>
+            ) : products.length === 0 ? (
               <div className="text-muted-foreground">{t("noProducts")}</div>
             ) : (
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">

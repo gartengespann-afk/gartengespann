@@ -5,10 +5,20 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/lib/cart";
 import { useLang } from "@/lib/i18n";
+import { ProductImage } from "@/components/site/ProductImage";
 import { Trash2 } from "lucide-react";
 
 export const Route = createFileRoute("/cart")({
-  head: () => ({ meta: [{ title: "Panier — GARTEN-GESPANN" }] }),
+  head: () => ({
+    meta: [
+      { title: "Warenkorb – GARTEN-GESPANN" },
+      {
+        name: "description",
+        content:
+          "Prüfen Sie Artikel im Warenkorb, passen Sie Mengen an und gehen Sie sicher zur Bestellung über.",
+      },
+    ],
+  }),
   component: CartPage,
 });
 
@@ -32,7 +42,17 @@ function CartPage() {
             <div className="space-y-3">
               {items.map((it) => (
                 <div key={it.id} className="flex gap-3 md:gap-4 rounded-lg border p-3 md:p-4 bg-card">
-                  {it.image && <img src={it.image} alt={it.name} className="h-20 w-20 md:h-24 md:w-24 rounded object-cover shrink-0" />}
+                  {it.image && (
+                    <ProductImage
+                      src={it.image}
+                      alt={it.name}
+                      width={96}
+                      height={96}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-20 w-20 md:h-24 md:w-24 rounded object-cover shrink-0"
+                    />
+                  )}
                   <div className="flex-1 min-w-0">
                     <Link to="/product/$slug" params={{ slug: it.slug }} className="font-medium text-sm md:text-base hover:text-accent line-clamp-2">
                       {it.name}

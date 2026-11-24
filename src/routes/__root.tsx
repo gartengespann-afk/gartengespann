@@ -7,15 +7,20 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
+import type { ErrorComponentProps } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { LangProvider, useLang } from "@/lib/i18n";
 import { CartProvider } from "@/lib/cart";
+import { FavoritesProvider } from "@/lib/favorites";
 import { MiniCart } from "@/components/site/MiniCart";
 import { AuthProvider } from "@/lib/auth";
+import { ProductsProvider } from "@/lib/products";
 import { Toaster } from "@/components/ui/sonner";
+import { CookieConsentProvider } from "@/lib/cookie-consent";
+import { CookieConsentBanner } from "@/components/site/CookieConsentBanner";
 
 function NotFoundComponent() {
   const { t } = useLang();
@@ -40,7 +45,7 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error, reset }: ErrorComponentProps) {
   const { t } = useLang();
   console.error(error);
   const router = useRouter();
@@ -84,10 +89,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "GARTEN-GESPANN — Remorques, tondeuses, bois de chauffage" },
-      { name: "description", content: "Boutique en ligne de remorques, tondeuses autoportées, tronçonneuses et bois de chauffage. Livraison rapide en Europe." },
-      { property: "og:title", content: "GARTEN-GESPANN" },
-      { property: "og:description", content: "Remorques, tondeuses, tronçonneuses et bois de chauffage livrés chez vous." },
+      { title: "GARTEN-GESPANN – Anhänger, Gartengeräte & Brennholz" },
+      { name: "description", content: "Onlineshop für Anhänger, Rasenmäher, Kettensägen, Brennholz und Öfen. Sichere Zahlung und Lieferung in Deutschland." },
+      { property: "og:title", content: "GARTEN-GESPANN – Anhänger, Gartengeräte & Brennholz" },
+      { property: "og:description", content: "Anhänger, Gartengeräte, Brennholz und Öfen online kaufen. Sichere Zahlung und Lieferung in Deutschland." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -96,7 +101,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/Icône_Bout.png", type: "image/png" },
+      { rel: "icon", href: "/Icône_Bout.webp", type: "image/webp" },
     ],
   }),
   shellComponent: RootShell,
@@ -126,11 +131,18 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <LangProvider>
-          <CartProvider>
-            <Outlet />
-            <MiniCart />
-            <Toaster position="top-right" />
-          </CartProvider>
+          <CookieConsentProvider>
+            <CartProvider>
+              <FavoritesProvider>
+                <ProductsProvider>
+                  <Outlet />
+                  <MiniCart />
+                  <CookieConsentBanner />
+                  <Toaster position="top-right" />
+                </ProductsProvider>
+              </FavoritesProvider>
+            </CartProvider>
+          </CookieConsentProvider>
         </LangProvider>
       </AuthProvider>
     </QueryClientProvider>

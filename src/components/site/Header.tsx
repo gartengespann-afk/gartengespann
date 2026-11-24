@@ -44,8 +44,12 @@ export function Header() {
       <div className="container mx-auto flex items-center justify-between gap-2 px-4 py-2">
         <Link to="/" aria-label="GARTEN-GESPANN" className="flex items-center gap-2">
           <img
-            src="/Icône_Bout.png"
+            src="/Icône_Bout.webp"
             alt=""
+            width={44}
+            height={44}
+            loading="eager"
+            decoding="async"
             className="h-10 w-10 shrink-0 object-contain sm:h-11 sm:w-11"
           />
           <span className="text-lg font-extrabold tracking-tight text-primary sm:text-xl">

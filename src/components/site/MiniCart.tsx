@@ -3,6 +3,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/lib/cart";
 import { useLang } from "@/lib/i18n";
+import { ProductImage } from "@/components/site/ProductImage";
 import { Trash2 } from "lucide-react";
 
 export function MiniCart() {
@@ -28,7 +29,15 @@ export function MiniCart() {
             {items.map((it) => (
               <div key={it.id} className="flex gap-3 rounded-lg border p-3 bg-card">
                 {it.image && (
-                  <img src={it.image} alt={it.name} className="h-16 w-16 rounded object-cover shrink-0" />
+                  <ProductImage
+                    src={it.image}
+                    alt={it.name}
+                    width={64}
+                    height={64}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-16 w-16 rounded object-cover shrink-0"
+                  />
                 )}
                 <div className="flex-1 min-w-0">
                   <Link

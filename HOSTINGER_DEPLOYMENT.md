@@ -1,6 +1,6 @@
 # Déploiement sur Hostinger
 
-Ce projet peut conserver TanStack Start comme application Node.js et utiliser l'API PHP avec MySQL. Le preset Node est réservé aux commandes Hostinger ; le build normal et le preset Cloudflare utilisés par Lovable ne sont pas modifiés.
+Ce projet peut conserver TanStack Start comme application Node.js et utiliser l'API PHP avec MySQL. Le build normal utilise le preset Node hors de Lovable ; le wrapper Lovable conserve son preset Cloudflare dans son environnement.
 
 ## Préparer la configuration
 
@@ -13,10 +13,10 @@ Ce projet peut conserver TanStack Start comme application Node.js et utiliser l'
 
 Choisissez une version de Node compatible avec Vite (Node 22 LTS est recommandée), puis configurez les commandes de l'application dans hPanel :
 
-- Build : `npm run build:hostinger`
-- Démarrage : `npm run start:hostinger`
+- Build : `npm run build`
+- Fichier d'entrée : `server/index.mjs` dans le dossier `.output`
 
-Le serveur Nitro écoute le port fourni par Hostinger (`PORT`). Le build crée `.output/server/index.mjs`; il faut conserver ce dossier ainsi que les dépendances nécessaires au démarrage.
+Le serveur Nitro écoute le port fourni par Hostinger (`PORT`). Le build crée `.output/server/index.mjs`; Hostinger démarre cette entrée avec ses réglages d'application.
 
 ## Publier l'API PHP sous `/api`
 

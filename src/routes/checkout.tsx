@@ -108,8 +108,11 @@ function CheckoutPage() {
     <div className="min-h-screen flex flex-col">
       <Header />
       <PageHeader title={t("checkout")} />
-      <form onSubmit={submit} className="container mx-auto px-4 py-8 flex-1 grid lg:grid-cols-[1fr_360px] gap-6 md:gap-8">
-        <div className="space-y-4 order-2 lg:order-1">
+      <form
+        onSubmit={submit}
+        className="container mx-auto px-4 py-8 flex-1 grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] gap-6 md:gap-8"
+      >
+        <div className="min-w-0 space-y-4">
           {submitError && (
             <p role="alert" className="rounded-lg border border-destructive/30 bg-destructive/5 p-3 text-sm text-destructive">
               {submitError}
@@ -121,13 +124,8 @@ function CheckoutPage() {
               <Input id={k} required={req} value={form[k]} onChange={(e) => setForm({ ...form, [k]: e.target.value })} />
             </div>
           ))}
-          <div className="lg:hidden">
-            <Button type="submit" disabled={isSubmitDisabled} size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-              {loading ? "..." : t("placeOrder")}
-            </Button>
-          </div>
         </div>
-        <aside className="rounded-lg border p-5 md:p-6 bg-card h-fit sticky lg:top-24 order-1 lg:order-2">
+        <aside className="min-w-0 rounded-lg border p-4 md:p-6 bg-card h-fit lg:sticky lg:top-24">
           <h2 className="font-semibold mb-4 text-sm md:text-base">{t("subtotal")}</h2>
           {items.map((it) => (
             <div key={it.id} className="flex justify-between text-sm py-1 gap-2">
@@ -138,7 +136,12 @@ function CheckoutPage() {
           <div className="flex justify-between font-bold text-base md:text-lg border-t pt-3 mt-3">
             <span>{t("total")}</span><span>{total.toFixed(2)} €</span>
           </div>
-          <Button type="submit" disabled={isSubmitDisabled} size="lg" className="hidden lg:flex w-full mt-6 bg-accent text-accent-foreground hover:bg-accent/90">
+          <Button
+            type="submit"
+            disabled={isSubmitDisabled}
+            size="lg"
+            className="w-full mt-6 bg-accent text-accent-foreground hover:bg-accent/90"
+          >
             {loading ? "..." : t("placeOrder")}
           </Button>
         </aside>
